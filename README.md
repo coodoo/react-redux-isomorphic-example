@@ -17,11 +17,11 @@ We love react and flux for it's smooth workflow and simpler mindset which makes 
 
 Redux further makes everything __10x__ easier by transforming `flux store` into pure functions, with no state stored inside, which solved a lot of `singleton` and `waiting` issues in other implementations, it also encourages a lot of best practices like `container component`, easy extension points and minimal API surface area.
 
-Under the hood, redux is heavily based on `functional programming` principals to make those nice things happen, but don't let the functional aspect of redux scares you off, __`as a lib user, you don't really need to know about any of those and get started real quick`__.real
+Under the hood, redux is heavily based on `functional programming` principals to make those nice things happen, but don't let the functional aspect of redux scares you off, __`as a lib user, you don't really need to know about those inner workings and get started without problems`__.
 
-That being said, it's quite an enjoyable and amazing experience to read through the codebase line by line and fully understand how things worked with a very different approach, it's truly an eye opener.
+That being said, it's quite an enjoyable and amazing experience to read through the codebase line by line and fully understand how things worked in a very different manner, it's truly an eye opener.
 
-In short, if you could only pick up one new skill this summer (2015), redux should be on the top of your list, highly recommended.
+In short, if you could only pick up one new skill this summer (2015), `redux` should be on the top of your list (and a bit of functional programming taste won't hurt too :)
 
 
 ## Feature Highlights
