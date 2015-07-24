@@ -1,0 +1,55 @@
+{
+  "name": "todomvc",
+  "version": "0.0.0",
+  "description": "TodoMVC example for redux",
+  "main": "dev.js",
+  "scripts": {
+    "dev": "node dev.js",
+    "start": "npm run build& npm run server",
+    "build": "webpack -d --progress --watch",
+    "server": "babel-node --stage 0 server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaearon/redux.git"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "hot",
+    "reload",
+    "hmr",
+    "live",
+    "edit",
+    "webpack",
+    "flux",
+    "todomvc"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gaearon/redux/issues"
+  },
+  "homepage": "https://github.com/gaearon/redux#readme",
+  "dependencies": {
+    "classnames": "^2.1.2",
+    "express": "^4.13.1",
+    "object-assign": "^3.0.0",
+    "page": "^1.6.3",
+    "react": "^0.13.3",
+    "react-constants": "^0.1.0",
+    "react-redux": "^0.2.1",
+    "redux": "^1.0.0-rc",
+    "redux-thunk": "^0.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^5.6.18",
+    "babel-loader": "^5.1.4",
+    "node-libs-browser": "^0.5.2",
+    "raw-loader": "^0.5.1",
+    "react-hot-loader": "^1.2.7",
+    "style-loader": "^0.12.3",
+    "todomvc-app-css": "^2.0.1",
+    "webpack": "^1.9.11",
+    "webpack-dev-server": "^1.9.0"
+  }
+}

@@ -1,0 +1,25 @@
+import constants from 'react-constants';
+
+// constants 插件會吐出 {ROUTE_CHANGE: "ROUTE_CHANGE"} 這樣的 pair string
+export default constants([
+
+    "ROUTE_CHANGE",
+    "TOGGLE_LOADING",
+
+    "ADD_TO_CART",
+    "CART_CHECKOUT_REQUEST",
+    "CART_CHECKOUT_SUCCESS",
+    "CART_CHECKOUT_ERROR",
+    "FINISH_CHECKOUT",
+
+    "LOAD_ALL_PRODUCTS",
+    "LOAD_ONE_PRODUCT",
+
+    "READ_ALL_PRODUCTS_REQUEST",
+    "READ_ALL_PRODUCTS_SUCCESS",
+    "READ_ALL_PRODUCTS_ERROR",
+
+    "READ_ONE_PRODUCT_REQUEST",
+    "READ_ONE_PRODUCT_SUCCESS",
+    "READ_ONE_PRODUCT_ERROR",
+]);

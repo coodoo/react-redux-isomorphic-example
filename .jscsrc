@@ -1,0 +1,24 @@
+{
+  "preset": "jquery",
+  "esprima": "esprima-fb",
+  "fileExtensions": [
+    ".js",
+    ".jsx"
+  ],
+  "excludeFiles": [
+    "node_modules/**",
+    "Dropbox/**",
+    "lib/**",
+    ".jscsrc/**",
+    "data/**",
+    "package/**",
+    "shared/**"
+  ],
+  "esnext": true,
+  "validateQuoteMarks": "'",
+  "maximumLineLength": {
+      "value": 120,
+      "tabSize": 4,
+      "allExcept": ["urlComments", "regex"]
+  }
+}
