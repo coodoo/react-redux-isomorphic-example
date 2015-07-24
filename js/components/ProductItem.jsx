@@ -19,6 +19,7 @@ var ProductItem = React.createClass( {
 		<div className="uk-panel uk-panel-box uk-margin-bottom">
 			<img className="uk-thumbnail uk-thumbnail-mini uk-align-left" src={product.image} />
 			<h4 className="uk-h4">{product.title} - &euro;{product.price}</h4>
+			<p>inventory: {product.inventory}</p>
 			<button className="uk-button uk-button-small uk-button-primary"
 					onClick={this.props.onAddToCartClicked}
 					disabled={product.inventory > 0 ? '' : 'disabled'}>
