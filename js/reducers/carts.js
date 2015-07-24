@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   products: [],	// products[102] = {quantity: 8, title:'aaa', price:'199.99'}
-  total: 0 // 總金額
+  total: '0' // 總金額
 };
 
 export default function carts( state = initialState, action ) {

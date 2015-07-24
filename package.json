@@ -1,5 +1,5 @@
 {
-  "name": "react-redux isomprphic example",
+  "name": "react-redux-isomprphic-example",
   "version": "1.0.0",
   "description": "An isomorphic example built with react and redux using the latest v1.0.0-rc API, see readme for detailed instructions",
   "main": "dev.js",

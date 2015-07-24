@@ -1,53 +1,54 @@
-
-var Shop = exports;
-
 import _products from './products.js';
+const TIMEOUT = 100;
 
-var TIMEOUT = 100;
+export default {
 
-Shop.getProducts = function (timeout) {
-  timeout = timeout || TIMEOUT;
-  return new Promise( (resolve, reject) => {
-	  setTimeout(function () {
-	  	// console.log( 'shop.js::shop 取得: ', _products );
-	    resolve(_products);
-	  }, timeout);
+	getProducts: function (timeout) {
+	  timeout = timeout || TIMEOUT;
+	  return new Promise( (resolve, reject) => {
+		  setTimeout(function () {
+		  	// console.log( 'shop.js::shop 取得: ', _products );
+		    resolve(_products);
+		  }, timeout);
 
-  })
-};
+	  })
+	},
 
-Shop.getOneProduct = function (id, timeout) {
+	getOneProduct: function (id, timeout) {
 
-  timeout = timeout || TIMEOUT;
+	  timeout = timeout || TIMEOUT;
 
-  return new Promise( (resolve, reject) => {
+	  return new Promise( (resolve, reject) => {
 
-	  setTimeout(function () {
+		  setTimeout(function () {
 
-	  	for(let item of _products ){
-	  		if( item.id == id ){
-	  			// console.log( 'shop.js::shop 一筆取得: ', item );
-	  			resolve(item);
-	  		}
-	  	}
+		  	for(let item of _products ){
+		  		if( item.id == id ){
+		  			// console.log( 'shop.js::shop 一筆取得: ', item );
+		  			resolve(item);
+		  		}
+		  	}
 
-	  	// 如果走到這一行，代表前面找不到需要的商品，自然就拋錯了
-	  	// console.log( 'shop.js::shop > 失敗' );
-	  	reject( 'Product not found' );
+		  	// 如果走到這一行，代表前面找不到需要的商品，自然就拋錯了
+		  	// console.log( 'shop.js::shop > 失敗' );
+		  	reject( 'Product not found' );
 
-	  }, timeout);
+		  }, timeout);
 
-  })
-};
+	  })
+	},
 
-Shop.buyProducts = function (payload, timeout) {
-  timeout = timeout || TIMEOUT;
+	buyProducts: function (payload, timeout) {
+	  timeout = timeout || TIMEOUT;
 
-  return new Promise( (resolve, reject) => {
-	  setTimeout(function () {
-	  	// console.log( 'shop.js::虛擬購買完成 > payload: ', payload );
-	    resolve(payload);
-	  }, timeout);
+	  return new Promise( (resolve, reject) => {
+		  setTimeout(function () {
+		  	// console.log( 'shop.js::虛擬購買完成 > payload: ', payload );
+		    resolve(payload);
+		  }, timeout);
 
-  })
-};
+	  })
+	}
+
+}
+
