@@ -73,7 +73,7 @@ app.get('*', function(req, res) {
 // 示範如果要關掉 isomorphic 功能時該怎麼做
 // 手法就是同樣在 server 上模擬一個空白的字串返還，讓 client 端有東西可解開就好
 app.get('*', (req, res) => {
-  var str = index.replace('${markup}', '').replace('${state}', '');
+  var str = index.replace('${markup}', '').replace('${state}', null);
   // 將組合好的 html 字串返還，request 處理至此完成
   res.send(str);
 

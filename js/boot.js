@@ -14,12 +14,11 @@ import promiseMiddleware from './utils/PromiseMiddleware';
 
 
 // 客戶端嚐試還原 state，如果有找到這個 elem 並且有內容，就代表為 isomorphic 版本
-let elem = document.querySelector('.___redux-state___');
-let state;
-if( elem && elem.dataset.state.length > 0 ){
-	state = JSON.parse(elem.dataset.state);
-	// 用完就刪掉這個 elem
-	elem.remove();
+let state = null;
+if( window.reduxState ){
+	state = window.reduxState;
+	// 用完就刪掉
+	delete window.reduxState
 }
 
 // 就是 composeStores(), 將所有 stores 合併起來成為一個 composition(state, action) 指令
@@ -38,5 +37,5 @@ store.__restored__ = (state != null);
 
 React.render(
   <AppWrap store={store} />,
-  document.querySelector('.___redux-html___')
+  document.querySelector('.container')
 );
