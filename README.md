@@ -10,7 +10,9 @@ This example was previously built with [alt](https://github.com/coodoo/react-alt
 
 Feel free to [ask questions](https://github.com/coodoo/react-redux-isomorphic-example/issues) or send over pull requests.
 
-## Now with redux-devtools support
+## Redux-devtools built in
+
+With [redux-devtools](https://github.com/gaearon/redux-devtools/) in place, you can undo/redo any changes, just like travelling in time, have fun with it!
 
 ![redux-devtools inaction](https://raw.githubusercontent.com/coodoo/react-redux-isomorphic-example/master/assets/images/cap.png)
 
