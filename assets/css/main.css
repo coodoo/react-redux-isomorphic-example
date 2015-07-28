@@ -5,6 +5,7 @@
 }
 .cart {
     position: fixed;
-    right: 50px;
-    top: 30px;
+    left: 25px;
+    top: 700px;
+    width: 455px;
 }
