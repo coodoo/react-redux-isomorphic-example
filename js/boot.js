@@ -7,7 +7,7 @@
  */
 import React, { Component } from 'react';
 import AppWrap from './components/AppWrap';
-import { applyMiddleware, createStore, combineReducers } from 'redux';
+import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import { Provider } from 'react-redux';
 import * as reducers from './reducers';
 import promiseMiddleware from './utils/PromiseMiddleware';
@@ -36,6 +36,7 @@ var cs = compose(
 // 由於要用 Promise middleware，因此改用 applyMiddleware()
 const finalCreateStore = applyMiddleware( promiseMiddleware )(cs);
 
+let store = finalCreateStore(composedReducers, state);
 
 // 基礎版 - 不需 promiseMiddleware 時，可用原本的 createStore() 來建立 store instance
 // const store = createStore(composedReducers);
