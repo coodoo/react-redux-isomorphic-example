@@ -10,6 +10,9 @@ This example was previously built with [alt](https://github.com/coodoo/react-alt
 
 Feel free to [ask questions](https://github.com/coodoo/react-redux-isomorphic-example/issues) or send over pull requests.
 
+## Now with redux-devtools support
+
+![redux-devtools inaction](https://raw.githubusercontent.com/coodoo/react-redux-isomorphic-example/master/assets/images/cap.png)
 
 ## The case for redux
 
