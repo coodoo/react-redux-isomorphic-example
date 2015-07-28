@@ -26,7 +26,7 @@ export default class AppWrap extends Component {
 				   </DebugPanel>
 		}
 
-		tool = null;
+		// tool = null;
 
 		// <Provider> 唯一功能就是將 store 放入 context 供 <Connector> 取用
 		return (

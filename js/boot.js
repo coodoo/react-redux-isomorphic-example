@@ -29,15 +29,15 @@ const composedReducers = combineReducers(reducers);
 
 // 加掛上 reudx-devtools
 // buggy, disabled for now @Jul 28, 2015 16:54
-/*var cs = compose(
+var cs = compose(
 	devTools(),
 	// persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
 	createStore);
 
-const finalCreateStore = applyMiddleware( promiseMiddleware )(cs);*/
+const finalCreateStore = applyMiddleware( promiseMiddleware )(cs);
 
 // 由於要用 Promise middleware，因此改用 applyMiddleware()
-const finalCreateStore = applyMiddleware( promiseMiddleware )(createStore);
+// const finalCreateStore = applyMiddleware( promiseMiddleware )(createStore);
 
 let store = finalCreateStore(composedReducers, state);
 
