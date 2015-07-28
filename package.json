@@ -4,7 +4,6 @@
   "description": "An isomorphic example built with react and redux using the latest v1.0.0-rc API, see readme for detailed instructions",
   "main": "dev.js",
   "scripts": {
-    "dev": "node dev.js",
     "start": "npm run build& npm run server",
     "build": "webpack -d --progress --watch",
     "server": "babel-node --stage 0 server.js"

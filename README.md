@@ -91,4 +91,4 @@ $ npm install
 $ npm start
 ```
 
-Of course it's necessary that you have fully understood how `redux` works in general, having a look at [these examples](https://github.com/gaearon/redux/tree/breaking-changes-1.0/examples) would be a good start.
+Of course it's necessary that you understand how `redux` works in general, having a look at [these examples](https://github.com/gaearon/redux/tree/breaking-changes-1.0/examples) would be a good start.
