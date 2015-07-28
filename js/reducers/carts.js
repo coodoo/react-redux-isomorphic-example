@@ -13,6 +13,8 @@ const initialState = {
 
 export default function carts( state = initialState, action ) {
 
+	// console.log( 'action.type: ', action.type );
+
 	switch ( action.type ) {
 
 		case ADD_TO_CART:
@@ -22,11 +24,11 @@ export default function carts( state = initialState, action ) {
 			var product = action.product;
 			var id = product.id;
 
-			if(id in state.products) {
-				state.products[id].quantity++;
+			if( state.products.indexOf(product) != -1) {
+				product.quantity++;
 			}else{
 				product.quantity = 1;
-				state.products[product.id] = product;
+				state.products.push(product);
 			}
 
 			product.inventory--;
