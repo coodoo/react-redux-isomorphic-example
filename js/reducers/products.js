@@ -17,8 +17,8 @@ import {
 
 const initialState = {
 	all: [],
-	currentProduct: {id: 1, title: 'fake', price: '0.00', inventory: 0, image:'/assets/images/ipad-mini.png'},
-  total: '0'
+	idCurrentProduct: undefined,
+	total: '0'
 };
 
 export default function products( state = initialState, action ) {
@@ -33,7 +33,7 @@ export default function products( state = initialState, action ) {
 	// console.log( 'READ_ALL_PRODUCT_SUCCESS run: ', action );
 	var s = {
 		all: action.result,
-		currentProduct: state.currentProduct
+		idCurrentProduct: state.idCurrentProduct
 	}
 	return s;
 
@@ -73,10 +73,10 @@ export default function products( state = initialState, action ) {
 	return state;
 
   case READ_ONE_PRODUCT_SUCCESS:
-	// console.log( 'READ_ONE_PRODUCT_SUCCESS run: ', action );
+	// console.log( 'READ_ONE_PRODUCT_SUCCESS run: ', action.result );
 	var s = {
 		all: state.all,
-		currentProduct: action.result
+		idCurrentProduct: action.result.id
 	}
 	return s;
 

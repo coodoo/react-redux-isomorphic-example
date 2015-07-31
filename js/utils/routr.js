@@ -85,7 +85,6 @@ export default class Routr {
 				   .then( () => {
 				   		this.route('detail');
 				   		this.doAction('toggleLoading')(false); // 關掉 loading spinner
-				   		// console.log( '資料抓好囉 - detail' );
 				   	});
 	}
 

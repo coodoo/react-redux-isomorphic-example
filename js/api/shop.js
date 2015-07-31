@@ -13,7 +13,6 @@ export default {
 		  	}else{
 		  		resolve(window.getProducts().all)
 		  	}
-		    	// resolve(_products);
 		  }, timeout);
 
 	  })

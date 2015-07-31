@@ -2,11 +2,6 @@ var React = require( 'react' );
 
 export default React.createClass( {
 
-	propTypes: {
-		allStatee: React.PropTypes.object,
-		actions: React.PropTypes.object,
-	},
-
 	render: function() {
 
 		var product = this.props.product;

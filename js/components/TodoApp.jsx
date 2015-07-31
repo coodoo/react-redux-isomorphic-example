@@ -43,10 +43,12 @@ export default class TodoApp extends Component {
 
     var view;
 
+    var product = allStates.products.all.find( p => p.id == allStates.products.idCurrentProduct );
+
     if ( allStates.routes.currentView == 'master' ) {
         view = <ProductsContainer products={allStates.products.all} actions={actions}/> ;
     }else{
-        view = <ProductDetail product={allStates.products.currentProduct} actions={actions} />;
+        view = <ProductDetail product={product} actions={actions} />;
     }
 
     return <div>{view}</div>;
