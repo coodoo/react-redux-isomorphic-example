@@ -41,6 +41,11 @@ const finalCreateStore = applyMiddleware( promiseMiddleware )(cs);
 
 let store = finalCreateStore(composedReducers, state);
 
+// mocked API
+window.getProducts = function(){
+	return store.getState().products;
+}
+
 // 基礎版 - 不需 promiseMiddleware 時，可用原本的 createStore() 來建立 store instance
 // const store = createStore(composedReducers);
 

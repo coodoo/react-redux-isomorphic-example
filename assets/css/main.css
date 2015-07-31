@@ -6,6 +6,7 @@
 .cart {
     position: fixed;
     left: 25px;
-    top: 755px;
+    top: 195px;
+    /*top: 755px;*/
     width: 455px;
 }

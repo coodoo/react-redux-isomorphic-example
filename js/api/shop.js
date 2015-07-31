@@ -8,7 +8,12 @@ export default {
 	  return new Promise( (resolve, reject) => {
 		  setTimeout(function () {
 		  	// console.log( 'shop.js::shop 取得: ', _products );
-		    resolve(_products);
+		  	if( 'undefined' == typeof window ){
+		    	resolve(_products);
+		  	}else{
+		  		resolve(window.getProducts().all)
+		  	}
+		    	// resolve(_products);
 		  }, timeout);
 
 	  })
