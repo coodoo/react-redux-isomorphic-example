@@ -1,4 +1,6 @@
 
+import assign from 'object-assign';
+
 import {
   ADD_TO_CART,
   CART_CHECKOUT_REQUEST,
@@ -6,9 +8,10 @@ import {
   CART_CHECKOUT_ERROR,
 } from '../constants/ActionTypes';
 
+
+
 const initialState = {
-  products: [],	// products[102] = {quantity: 8, title:'aaa', price:'199.99'}
-  total: '0' // 總金額
+  idProducts: [],	// id of added products
 };
 
 export default function carts( state = initialState, action ) {
@@ -19,25 +22,15 @@ export default function carts( state = initialState, action ) {
 
 		case ADD_TO_CART:
 
-			// console.log( 'ADD_TO_CART run: ', action, ' >state: ', state );
+			// console.log( 'ADD_TO_CART: ', action, ' >state: ', state );
 
-			var product = action.product;
-			var id = product.id;
+			var id = action.product.id;
 
-			if( state.products.indexOf(product) != -1) {
-				product.quantity++;
+			if( state.idProducts.indexOf(id) == -1 ) {
+				return {idProducts: [...state.idProducts, id]};
 			}else{
-				product.quantity = 1;
-				state.products.push(product);
+				return state
 			}
-
-			product.inventory--;
-
-			var s = {
-				total: state.products.reduce( (acc, item) => { return acc + (item.quantity * item.price) }, 0 ).toFixed(2),
-				products: state.products
-			}
-			return s;
 
 		case CART_CHECKOUT_REQUEST:
 			// console.log( 'CART_CHECKOUT_REQUEST > action:', action );

@@ -57,6 +57,6 @@ export default class TodoApp extends Component {
     if(!actions)
       actions = bindActionCreators(ShopActions, dispatch);
 
-    return <CartContainer carts={allStates.carts} actions={actions} />;
+    return <CartContainer carts={allStates.carts} products={allStates.products} actions={actions} />;
   }
 }

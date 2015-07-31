@@ -12,7 +12,7 @@ export default class CartContainer extends React.Component {
 	onCheckoutClicked() {
 
 		// 購物車內沒東西就不處理
-		if ( !this.props.carts.products.length ) {
+		if ( this.props.carts.idProducts.length == 0 ) {
 			return;
 		}
 
@@ -20,9 +20,10 @@ export default class CartContainer extends React.Component {
 	}
 
 	render() {
+
 		return (
-			<Cart products= {this.props.carts.products}
-			 	  total= {this.props.carts.total}
+			<Cart products= {this.props.products}
+				  carts= {this.props.carts}
 				  onCheckoutClicked= {this.onCheckoutClicked.bind(this)}
 			/>
 		);
