@@ -11,7 +11,8 @@ import {
   READ_ONE_PRODUCT_SUCCESS,
   READ_ONE_PRODUCT_ERROR,
 
-  ADD_TO_CART
+  ADD_TO_CART,
+  CART_CHECKOUT_SUCCESS
 
 } from '../constants/ActionTypes';
 
@@ -66,6 +67,8 @@ export default function products( state = initialState, action ) {
 	// console.log( 'products 算完: ', s );
 	return s;
 
+  case CART_CHECKOUT_SUCCESS:
+	return { ...state, total: '0' };
 
 
   case READ_ONE_PRODUCT_REQUEST:

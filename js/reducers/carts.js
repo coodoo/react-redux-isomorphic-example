@@ -39,8 +39,7 @@ export default function carts( state = initialState, action ) {
 		case CART_CHECKOUT_SUCCESS:
 			console.log( 'CART_CHECKOUT_SUCCESS > checkout completed!' );
 			return {
-				products: [],
-				total: '0'
+				idProducts: []
 			}
 
 		case CART_CHECKOUT_ERROR:
