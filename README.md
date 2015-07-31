@@ -1,10 +1,10 @@
 
-isomorphic-react-with-redux
-=========================
+react + redux: an universal example
+===================================
 
 ## Introduction
 
-This is an isomorphic example built with react and [`Redux`](https://github.com/gaearon/redux) which utilizes the same codebase on both server and browser to correctly handle multiple requests at one time.
+This is an isomorphic/universal example built with react and [`Redux`](https://github.com/gaearon/redux) which utilizes the same codebase on both server and browser to correctly handle multiple requests at one time.
 
 This example was previously built with [alt](https://github.com/coodoo/react-alt-isomorphic-example) and now fully migrated to `redux`, you might as well compare the two and see the differences.
 
