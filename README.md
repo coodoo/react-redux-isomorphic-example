@@ -92,3 +92,7 @@ $ npm start
 ```
 
 Of course it's necessary that you understand how `redux` works in general, having a look at [these examples](https://github.com/gaearon/redux/tree/breaking-changes-1.0/examples) would be a good start.
+
+## Special thanks
+
+Thanks [@gaearon](https://github.com/coodoo/react-redux-isomorphic-example/issues/9) for code review and pointing out misc. issues, which helped to make the data structure normalized and become truely immutable.
