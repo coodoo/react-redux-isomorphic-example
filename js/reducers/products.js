@@ -1,5 +1,6 @@
 
 import assign from 'object-assign';
+import Immutable from 'immutable';
 
 import {
 
@@ -16,79 +17,90 @@ import {
 
 } from '../constants/ActionTypes';
 
-const initialState = {
-	all: [],
-	idCurrentProduct: undefined,
+const ProductState = Immutable.Record({
+	all: null,
+	idCurrentProduct: null,
 	total: '0'
-};
+})
+
+const ProductRecord = Immutable.Record({
+	id: null,
+	image: "",
+	inventory: 0,
+	quantity: 0,
+	price: 0,
+	title: ""
+})
+
+
+const initialState = new ProductState();
+
+// convert plain js obj to Immutable.Record of type ProductRecord
+function convertToRecord( arr, Def ){
+	// 最終返還出去的是 List of ProductRecord
+	return Immutable.List.of( ...arr.map( item => new Def(item) ) );
+}
 
 export default function products( state = initialState, action ) {
 
   switch ( action.type ) {
 
-  case READ_ALL_PRODUCTS_REQUEST:
-	// console.log( 'READ_ALL_PRODUCT_REQUEST run: ', action, ' >state: ', state );
-	return state;
+	  case READ_ALL_PRODUCTS_REQUEST:
+		return state;
 
-  case READ_ALL_PRODUCTS_SUCCESS:
-	// console.log( 'READ_ALL_PRODUCT_SUCCESS run: ', action );
-	var s = {
-		all: action.result,
-		idCurrentProduct: state.idCurrentProduct
-	}
-	return s;
+	  case READ_ALL_PRODUCTS_SUCCESS:
+		return state.update( 'all', list => {
+			return convertToRecord( action.result, ProductRecord );
+		})
 
-  case READ_ALL_PRODUCTS_ERROR:
-	// console.log( 'READ_ALL_PRODUCT_ERROR run: ', action, ' >state: ', state );
-	return state;
+	  case READ_ALL_PRODUCTS_ERROR:
+		return state;
 
 
-  case ADD_TO_CART:
+	  case ADD_TO_CART:
 
-	// console.log( 'ADD_TO_CART run: ', action, ' >state: ', state );
+		var id = action.product.id;
 
-	var id = action.product.id;
-	var product = state.all.find( p => p.id == id );
+		state = state
+		.update( 'all', list =>{
+			return list.map( item => {
+				if( item.id == id ){
+					return item
+							.set('quantity', item.quantity+1 )
+							.set('inventory', item.inventory-1 )
+				}else{
+					return item;
+				}
+			})
+		})
 
-	if( !product ) return state;
+		return state.update('total', num => {
+			return state.all.reduce( (acc, item) => {
+				return acc + (item.quantity * item.price)
+			}, 0 ).toFixed(2)
+		})
 
-	var all = state.all.map( p =>
-		p.id == id ?
-			assign({}, p, { quantity: p.quantity+1, inventory: p.inventory-1 }) :
-			p
-	)
-
-	var s = {
-		...state,
-		all,
-		total: all.reduce( (acc, item) => { return acc + (item.quantity * item.price) }, 0 ).toFixed(2)
-	}
-
-	// console.log( 'products 算完: ', s );
-	return s;
-
-  case CART_CHECKOUT_SUCCESS:
-	return { ...state, total: '0' };
-
-
-  case READ_ONE_PRODUCT_REQUEST:
-	// console.log( 'READ_ONE_PRODUCT_REQUEST run: ', action, ' >state: ', state );
-	return state;
-
-  case READ_ONE_PRODUCT_SUCCESS:
-	// console.log( 'READ_ONE_PRODUCT_SUCCESS run: ', action.result );
-	var s = {
-		all: state.all,
-		idCurrentProduct: action.result.id
-	}
-	return s;
-
-  case READ_ONE_PRODUCT_ERROR:
-	// console.log( 'READ_ONE_PRODUCT_ERROR run: ', action, ' >state: ', state );
-	return state;
+	  case CART_CHECKOUT_SUCCESS:
+	  	return state
+			  	.update('all', list => {
+			 		 return list.map( item => item.set('quantity', 0) )
+			  	})
+			  	.update('total', num => '0');
 
 
-  default:
-	return state;
+	  case READ_ONE_PRODUCT_REQUEST:
+		return state;
+
+	  case READ_ONE_PRODUCT_SUCCESS:
+		return state.update('idCurrentProduct', id => {
+			return action.result.id;
+		})
+
+	  case READ_ONE_PRODUCT_ERROR:
+		return state;
+
+
+	  default:
+		return state;
   }
 }

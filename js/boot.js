@@ -11,14 +11,51 @@ import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import { Provider } from 'react-redux';
 import * as reducers from './reducers';
 import promiseMiddleware from './utils/PromiseMiddleware';
+import Immutable from 'immutable';
 
 // devTools
 import { devTools, persistState } from 'redux-devtools';
 
+const ProductState = Immutable.Record({
+	all: null,
+	idCurrentProduct: undefined,
+	total: '0'
+})
+
+const ProductRecord = Immutable.Record({
+	id: null,
+	image: "",
+	inventory: 0,
+	quantity: 0,
+	price: 0,
+	title: ""
+})
+
+const CartState = Immutable.Record({
+	idProducts: Immutable.List.of([])
+})
+
+function convertToRecord( arr, Def ){
+	// 最終返還出去的是 List of ProductRecord
+	return Immutable.List.of( ...arr.map( item => new Def(item) ) );
+}
+
 // 客戶端嚐試還原 state，如果有找到這個 elem 並且有內容，就代表為 isomorphic 版本
 let state = null;
 if( window.reduxState ){
+
 	state = window.reduxState;
+
+	// begin marshalling
+	state.products = new ProductState({
+		all: convertToRecord(state.products.all, ProductRecord),
+		total: state.products.total,
+		idCurrentProduct: state.products.idCurrentProduct
+	})
+	state.carts = new CartState({
+		idProducts: Immutable.List.of(...state.carts.idProducts)
+	})
+
 	// 用完就刪掉
 	delete window.reduxState
 }

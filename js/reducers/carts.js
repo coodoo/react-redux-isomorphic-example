@@ -1,5 +1,6 @@
 
 import assign from 'object-assign';
+import Immutable from 'immutable';
 
 import {
   ADD_TO_CART,
@@ -8,42 +9,29 @@ import {
   CART_CHECKOUT_ERROR,
 } from '../constants/ActionTypes';
 
+var CartState = Immutable.Record({
+	idProducts: Immutable.List.of([])
+})
 
-
-const initialState = {
-  idProducts: [],	// id of added products
-};
+const initialState = new CartState();
 
 export default function carts( state = initialState, action ) {
-
-	// console.log( 'action.type: ', action.type );
 
 	switch ( action.type ) {
 
 		case ADD_TO_CART:
-
-			// console.log( 'ADD_TO_CART: ', action, ' >state: ', state );
-
 			var id = action.product.id;
-
-			if( state.idProducts.indexOf(id) == -1 ) {
-				return {idProducts: [...state.idProducts, id]};
-			}else{
-				return state
-			}
+			return state.update('idProducts', list => {
+				return (list.indexOf(id) != -1) ? list : list.push(id);
+			})
 
 		case CART_CHECKOUT_REQUEST:
-			// console.log( 'CART_CHECKOUT_REQUEST > action:', action );
 			return state;
 
 		case CART_CHECKOUT_SUCCESS:
-			console.log( 'CART_CHECKOUT_SUCCESS > checkout completed!' );
-			return {
-				idProducts: []
-			}
+			return state.set('idProducts', state.idProducts.clear() );
 
 		case CART_CHECKOUT_ERROR:
-			// console.log( 'CART_CHECKOUT_ERROR' );
 			return state;
 
 		default:

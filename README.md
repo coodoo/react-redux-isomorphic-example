@@ -1,6 +1,6 @@
 
-react + redux: an universal example
-===================================
+Universal app built with react & redux
+======================================
 
 ## Introduction
 
@@ -10,9 +10,9 @@ This example was previously built with [alt](https://github.com/coodoo/react-alt
 
 Feel free to [ask questions](https://github.com/coodoo/react-redux-isomorphic-example/issues) or send over pull requests.
 
-## Redux-devtools built in
+## Redux-devtools included
 
-With [redux-devtools](https://github.com/gaearon/redux-devtools/) in place, you can undo/redo any changes, just like travelling in time, have fun with it!
+With [redux-devtools](https://github.com/gaearon/redux-devtools/) in place, you can undo/redo changes anytime, just like travelling back and forth in time, it's super neat being able to debug the application at different status.
 
 ![redux-devtools inaction](https://raw.githubusercontent.com/coodoo/react-redux-isomorphic-example/master/assets/images/cap.png)
 
@@ -45,7 +45,7 @@ There are already a bunch of isomorphic examples out there, what's special about
 
 
 
-## Goals for this example
+## Goals of the example
 
 - reuse same codebase on both browser and server without any modification
 
@@ -65,6 +65,14 @@ There are already a bunch of isomorphic examples out there, what's special about
 
 ## Pay attention to these
 
+#### Learn from mistakes
+
+An early implmentation of the example didn't handle data model well in an immutable manner, specificly by manipulating the state and it's content passed to each reducer, hence causing various issues and broke redux-devtools.
+
+[@gaearon (author of both redux and redux-devtools)](https://github.com/gaearon) was kindly enough to [pointed out those mistakes](https://github.com/coodoo/react-redux-isomorphic-example/issues/9) and provided instructions in great deal, do have a look at those and gain advanced understanding of redux.
+
+Later the example was migrated to `immutablejs` as it is now today but the goal stays the same.
+
 #### How client-side routing works
 
 - __The whole routing implementation is cleanly separated from the view, wrapping everything in a `flux store` (as named `reducer` in redux), this offers an alternative option beside `react-router`__
@@ -74,6 +82,16 @@ There are already a bunch of isomorphic examples out there, what's special about
 - See `server.js` how it invoke `routr` callbacks from outside and hook into the redux dispatching process, and also how it knows when data fetching from async sources is done
 
 - Trace how `http://localhost/2` works on both server and client, how parameters are processed, passed into the app and triggers data fetching
+
+#### How immutable data model works
+
+[`Immutable.js`](https://github.com/facebook/immutable-js/) was picked for the job for two main reasons:
+
+1. Immutable source of truth (data model) is easy to reason about and work with, it makes dirty diff fast and less error-prone.
+
+2. The data structure itself is fool-proof, meaning no one will accidentally modify the data model and causing bugs that are extremely hard to trace and fix, especially in a large team.
+
+Pay special attention to the use of `Immutable.Record` data structure and `update()` method used to manipulate data.
 
 #### How container component works
 
@@ -95,4 +113,4 @@ Of course it's necessary that you understand how `redux` works in general, havin
 
 ## Special thanks
 
-Thanks [@gaearon](https://github.com/coodoo/react-redux-isomorphic-example/issues/9) for code review and pointing out misc. issues, which helped to make the data structure normalized and become truely immutable.
+Thanks [@gaearon](https://github.com/gaearon) for code review and pointing out misc. issues. [Lee Byron](https://github.com/leebyron) for brining `immutable.js` to the world, it makes everything easier, you guys rock!

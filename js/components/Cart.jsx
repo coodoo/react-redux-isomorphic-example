@@ -12,7 +12,7 @@ export default React.createClass({
 	  var products = this.props.products;
 	  var carts = this.props.carts.idProducts;
 
-	  var hasProducts = carts.length > 0;
+	  var hasProducts = carts.size > 0;
 
 	  var nodes = !hasProducts ?
 	  	<div>Please add some products to cart.</div> :
