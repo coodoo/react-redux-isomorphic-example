@@ -26,7 +26,7 @@ Under the hood, redux is heavily based on `functional programming` principals to
 
 That being said, it's quite an enjoyable and amazing experience to read through the codebase line by line and fully understand how things worked in a very different manner, it's truly an eye opener.
 
-In short, if you could only pick up one new skill this summer (2015), `redux` should be on the top of your list (and a bit of functional programming taste won't hurt too :)
+In short, if you could only pick up one new skill this summer (2015), `redux` should be on the top of your list (and a bit of functional programming knowledge won't hurt too :)
 
 
 ## Feature Highlights
