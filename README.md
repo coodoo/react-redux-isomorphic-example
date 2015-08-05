@@ -1,5 +1,5 @@
 
-Universal app built with react & redux
+Universal Example for React and Redux
 ======================================
 
 ## Introduction
