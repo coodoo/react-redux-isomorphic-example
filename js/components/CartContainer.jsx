@@ -12,11 +12,11 @@ export default class CartContainer extends React.Component {
 	onCheckoutClicked() {
 
 		// 購物車內沒東西就不處理
-		if ( this.props.carts.idProducts.size == 0 ) {
+		if ( this.props.carts.cartsById.size == 0 ) {
 			return;
 		}
 
-		this.props.actions.cartCheckout(this.props.carts.products);
+		this.props.actions.cartCheckout(this.props.carts.cartsById);
 	}
 
 	render() {

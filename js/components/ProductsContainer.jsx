@@ -10,9 +10,8 @@ export default class ProductsContainer extends React.Component {
     }
 
     render() {
-
-      var nodes = this.props.products.map( product => {
-
+      let products = this.props.products;
+      var nodes = products.map( product => {
         return <ProductItemContainer
                   key={product.id}
                   product={product}

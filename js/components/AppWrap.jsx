@@ -4,7 +4,7 @@ import TodoApp from './TodoApp';
 import Routr from '../utils/routr';
 
 // devTools
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
+// import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 
 //
 export default class AppWrap extends Component {
@@ -20,13 +20,13 @@ export default class AppWrap extends Component {
 	render() {
 
 		var tool;
-		if ('undefined' !== typeof window) {
+		/*if ('undefined' !== typeof window) {
 			tool = <DebugPanel top right bottom>
 					<DevTools store={this.props.store} monitor={LogMonitor} />
 				   </DebugPanel>
-		}
+		}*/
 
-		// tool = null;
+		tool = null;
 
 		// <Provider> 唯一功能就是將 store 放入 context 供 <Connector> 取用
 		return (

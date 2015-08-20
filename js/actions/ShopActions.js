@@ -51,7 +51,7 @@ export function cartCheckout(products) {
 	return {
 		types: [ types.CART_CHECKOUT_REQUEST, types.CART_CHECKOUT_SUCCESS, types.CART_CHECKOUT_ERROR ],
 
-		promise: WebAPIUtils.checkoutProducts(products),//.then( result => console.log( '先看結果: ', result ) )
+		promise: WebAPIUtils.checkoutProducts(products),
 
 		products
 	};

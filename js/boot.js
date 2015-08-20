@@ -6,58 +6,36 @@
 
  */
 import React, { Component } from 'react';
-import AppWrap from './components/AppWrap';
 import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
+import Immutable from 'immutable';
 import { Provider } from 'react-redux';
 import * as reducers from './reducers';
 import promiseMiddleware from './utils/PromiseMiddleware';
-import Immutable from 'immutable';
+import AppWrap from './components/AppWrap';
+import {ProductState, ProductRecord, CartState, convertMapToImmutable} from './constants/Types';
 
 // devTools
-import { devTools, persistState } from 'redux-devtools';
-
-const ProductState = Immutable.Record({
-	all: null,
-	idCurrentProduct: undefined,
-	total: '0'
-})
-
-const ProductRecord = Immutable.Record({
-	id: null,
-	image: "",
-	inventory: 0,
-	quantity: 0,
-	price: 0,
-	title: ""
-})
-
-const CartState = Immutable.Record({
-	idProducts: Immutable.List.of([])
-})
-
-function convertToRecord( arr, Def ){
-	// 最終返還出去的是 List of ProductRecord
-	return Immutable.List.of( ...arr.map( item => new Def(item) ) );
-}
+// import { devTools, persistState } from 'redux-devtools';
 
 // 客戶端嚐試還原 state，如果有找到這個 elem 並且有內容，就代表為 isomorphic 版本
 let state = null;
-if( window.reduxState ){
+if( window.$REDUX_STATE ){
 
-	state = window.reduxState;
+	// 解開 server 預先傳來的資料包，稍後會放入 store 成為 initState
+	state = window.$REDUX_STATE;
 
-	// begin marshalling
+	// begin marshalling data into Immutable types
 	state.products = new ProductState({
-		all: convertToRecord(state.products.all, ProductRecord),
+		productsById: convertMapToImmutable(state.products.productsById, ProductRecord),
 		total: state.products.total,
-		idCurrentProduct: state.products.idCurrentProduct
+		currentProductId: state.products.currentProductId
 	})
 	state.carts = new CartState({
-		idProducts: Immutable.List.of(...state.carts.idProducts)
+		cartsById: Immutable.List.of(...state.carts.cartsById)
 	})
 
 	// 用完就刪掉
-	delete window.reduxState
+	delete window.$REDUX_STATE
 }
 
 // 就是 composeStores(), 將所有 stores 合併起來成為一個 composition(state, action) 指令
@@ -67,7 +45,7 @@ const composedReducers = combineReducers(reducers);
 // 加掛上 reudx-devtools
 // buggy, disabled for now @Jul 28, 2015 16:54
 var cs = compose(
-	devTools(),
+	// devTools(),
 	// persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
 	createStore);
 

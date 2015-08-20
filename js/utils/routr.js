@@ -34,7 +34,7 @@ export default class Routr {
 
 			setTimeout( () => {
 				// 真正啟動 router，注意它只負責 client-side routing
-				console.log('Client Router 啟動');
+				// console.log('Client Router 啟動');
 
 				// isomorphic 時這裏看 store.__restored__ 來判斷是否已還原過值
 				// 如果 true，則不要發出 initial 事件，以避免 todoReadAll()又去拉一次資料
@@ -76,7 +76,7 @@ export default class Routr {
 
 	// ctx.params 可取得傳入的參數
 	todoReadOne(ctx) {
-		// console.log( '\n\n拿到參數: ', ctx.params );
+		console.log( '\n\n拿到參數: ', ctx.params );
 		var id = ctx.params.id;
 
 		this.doAction('toggleLoading')(true, '載入中請稍候');	// 顯示 loading spinner

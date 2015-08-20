@@ -1,4 +1,5 @@
-import _products from './products.js';
+import products from './products.js';
+
 const TIMEOUT = 100;
 
 export default {
@@ -7,11 +8,11 @@ export default {
 	  timeout = timeout || TIMEOUT;
 	  return new Promise( (resolve, reject) => {
 		  setTimeout(function () {
-		  	// console.log( 'shop.js::shop 取得: ', _products );
 		  	if( 'undefined' == typeof window ){
-		    	resolve(_products);
+		  		// on server
+		    	resolve(products);
 		  	}else{
-		  		resolve(window.getProducts().all)
+		  		resolve(window.getProducts().productsById)
 		  	}
 		  }, timeout);
 
@@ -26,9 +27,8 @@ export default {
 
 		  setTimeout(function () {
 
-		  	for(let item of _products ){
+		  	for(let item of products ){
 		  		if( item.id == id ){
-		  			// console.log( 'shop.js::shop 一筆取得: ', item );
 		  			resolve(item);
 		  		}
 		  	}

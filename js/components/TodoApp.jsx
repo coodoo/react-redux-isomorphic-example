@@ -33,7 +33,7 @@ export default class TodoApp extends Component {
   // 傳來的第一個參數是個 obj，它直接對此 obj 做 distructuring
   // {dispatch: fn, todos: Array[8], routes: {...}}
   // 這裏單獨保留 dispatch fn，其它的 state tree 就放入 allStates{} 中
-  // 也就是說整支程式的 state tree 是保存在　allState{} 裏面
+  // 也就是說整支程式的 state tree 是保存在　allStates{} 裏面
   renderProducts( { dispatch, ...allStates }) {
 
     // 將所有 action 與 store.dispatch() 綁在一起，才能觸發所有 reducers 做事
@@ -43,12 +43,14 @@ export default class TodoApp extends Component {
 
     var view;
 
-    var product = allStates.products.all.find( p => p.id == allStates.products.idCurrentProduct );
+    var product = allStates.products.productsById.get( allStates.products.currentProductId );
 
     if ( allStates.routes.currentView == 'master' ) {
-        view = <ProductsContainer products={allStates.products.all} actions={actions}/> ;
+        view = <ProductsContainer products={allStates.products.productsById}
+                                  actions={actions}/> ;
     }else{
-        view = <ProductDetail product={product} actions={actions} />;
+        view = <ProductDetail product={product}
+                              actions={actions} />;
     }
 
     return <div>{view}</div>;
@@ -59,6 +61,8 @@ export default class TodoApp extends Component {
     if(!actions)
       actions = bindActionCreators(ShopActions, dispatch);
 
-    return <CartContainer carts={allStates.carts} products={allStates.products} actions={actions} />;
+    return <CartContainer carts={allStates.carts}
+                          products={allStates.products}
+                          actions={actions} />;
   }
 }
