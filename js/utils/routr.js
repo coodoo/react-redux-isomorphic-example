@@ -76,7 +76,6 @@ export default class Routr {
 
 	// ctx.params 可取得傳入的參數
 	todoReadOne(ctx) {
-		console.log( '\n\n拿到參數: ', ctx.params );
 		var id = ctx.params.id;
 
 		this.doAction('toggleLoading')(true, '載入中請稍候');	// 顯示 loading spinner
