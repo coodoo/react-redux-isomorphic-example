@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
-import { Connector } from 'react-redux';
 import * as ShopActions from '../actions/ShopActions';
 import CartContainer from './CartContainer';
 import ProductsContainer from './ProductsContainer';
-import ProductDetail from './ProductDetail';
 
 var actions
 
@@ -15,20 +13,23 @@ export default class TodoApp extends Component {
   // 此處的 select 則可更精準的選取 state tree 中自已需要的部份，而不是所有 state 都改變都回應
   // 注意下面示範了 app 中可以有多個 <Connector> 元件，並且每個元件可 select 不同的 state
   render() {
-    return (
-      <div>
 
-        <Connector select={ state => state }>
-          {this.renderProducts}
-        </Connector>
+  	var view = this.props.children ? this.props.children : <ProductsContainer />;
 
-        <Connector select={ state => state }>
-          {this.renderCart}
-        </Connector>
+	return (
+		<div>
 
-      </div>
-    );
+			{this.props.view}
+
+			<CartContainer carts={allStates.carts}
+	                          products={allStates.products}
+	                          actions={actions} />;
+			}
+		</div>
+	);
   }
+
+  // @connect( state => state )
 
   // 傳來的第一個參數是個 obj，它直接對此 obj 做 distructuring
   // {dispatch: fn, todos: Array[8], routes: {...}}
@@ -36,33 +37,35 @@ export default class TodoApp extends Component {
   // 也就是說整支程式的 state tree 是保存在　allStates{} 裏面
   renderProducts( { dispatch, ...allStates }) {
 
-    // 將所有 action 與 store.dispatch() 綁在一起，才能觸發所有 reducers 做事
-    // 這也是為何 <Connector> 內要傳來 store.dispatch() 的原因
-    if(!actions)
-      actions = bindActionCreators(ShopActions, dispatch);
+	// 將所有 action 與 store.dispatch() 綁在一起，才能觸發所有 reducers 做事
+	// 這也是為何 <Connector> 內要傳來 store.dispatch() 的原因
+	/*if(!actions)
+	  actions = bindActionCreators(ShopActions, dispatch);*/
 
-    var view;
+	// var view;
 
-    var product = allStates.products.productsById.get( allStates.products.currentProductId );
+	// @todo: 取資料的事交給 ProductsContainer 的 @connector(state => state) 去做
+	// var product = allStates.products.productsById.get( allStates.products.currentProductId );
 
-    if ( allStates.routes.currentView == 'master' ) {
-        view = <ProductsContainer products={allStates.products.productsById}
-                                  actions={actions}/> ;
-    }else{
-        view = <ProductDetail product={product}
-                              actions={actions} />;
-    }
+	/*if ( allStates.routes.currentView == 'master' ) {
+		view = <ProductsContainer products={allStates.products.productsById}
+								  actions={actions}/> ;
+	}else{
+		view = <ProductDetail product={product}
+							  actions={actions} />;
+	}
 
-    return <div>{view}</div>;
+	return <div>{view}</div>;
+	*/
   }
 
-  renderCart( { dispatch, ...allStates }) {
+  /*renderCart( { dispatch, ...allStates }) {
 
-    if(!actions)
-      actions = bindActionCreators(ShopActions, dispatch);
+	if(!actions)
+	  actions = bindActionCreators(ShopActions, dispatch);
 
-    return <CartContainer carts={allStates.carts}
-                          products={allStates.products}
-                          actions={actions} />;
-  }
+	return <CartContainer carts={allStates.carts}
+						  products={allStates.products}
+						  actions={actions} />;
+  }*/
 }

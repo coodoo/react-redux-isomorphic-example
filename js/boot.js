@@ -11,8 +11,12 @@ import Immutable from 'immutable';
 import { Provider } from 'react-redux';
 import * as reducers from './reducers';
 import promiseMiddleware from './utils/PromiseMiddleware';
-import AppWrap from './components/AppWrap';
+import TodoApp from './components/TodoApp';
+import ProductsContainer from './components/ProductsContainer';
+import ProductDetail from './components/ProductDetail';
 import {ProductState, ProductRecord, CartState, convertMapToImmutable} from './constants/Types';
+import {Router} from 'react-router';
+import {history} from "react-router/lib/BrowserHistory";
 
 // devTools
 // import { devTools, persistState } from 'redux-devtools';
@@ -68,7 +72,21 @@ window.getProducts = function(){
 // 將阻止 routr 內另發一個請求去撈初始化資料
 store.__restored__ = (state != null);
 
+// 啟動 router
+// 會連帶觸發第一次　todoReadAll() 取回初始資料
+// var routr = new Routr(props.store);
+
 React.render(
-  <AppWrap store={store} />,
-  document.querySelector('.container')
+
+	<Provider store={store}>
+		{() => {
+			<Router history={history}>
+			  <Route path="/" component={TodoApp}>
+			    <Route path="/:id" component={ProductDetail} />
+			  </Route>
+			</Router>
+		}}
+	</Provider>,
+
+	document.querySelector('.container')
 );

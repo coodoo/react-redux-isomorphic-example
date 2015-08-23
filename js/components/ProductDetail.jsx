@@ -1,8 +1,10 @@
-var React = require( 'react' );
+import React from 'react';
+import { connect } from 'react-redux';
 
-export default React.createClass( {
+@connect( state => state )
+export default class extends React.Component {
 
-	render: function() {
+	render() {
 
 		var product = this.props.product;
 
@@ -23,9 +25,9 @@ export default React.createClass( {
 				</button>
 			</div>
 		);
-	},
+	}
 
-	onAddToCartClicked: function() {
+	onAddToCartClicked() {
 		this.props.actions.addToCart( this.props.product );
 	}
-} );
+}

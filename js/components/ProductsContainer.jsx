@@ -1,8 +1,10 @@
-var React = require('react');
-var ProductItem = require('./ProductItem.jsx');
-var ProductsList = require('./ProductsList.jsx');
-var ProductItemContainer = require('./ProductItemContainer.jsx');
+import React from 'react';
+import ProductItem from './ProductItem.jsx';
+import ProductsList from './ProductsList.jsx';
+import ProductItemContainer from './ProductItemContainer.jsx';
+import { connect } from 'react-redux';
 
+@connect( state => state )
 export default class ProductsContainer extends React.Component {
 
     constructor(props, context) {
