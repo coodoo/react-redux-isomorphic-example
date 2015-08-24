@@ -1,7 +1,6 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import React, { Component } from 'react';
-import AppWrap from './js/components/AppWrap.jsx';
 import * as reducers from './js/reducers';
 import promiseMiddleware from './js/utils/PromiseMiddleware';
 import fs from 'fs';
@@ -24,6 +23,7 @@ const index = fs.readFileSync('assets/index.html', {encoding: 'utf-8'});
 const composedReducers = combineReducers(reducers);
 const finalCreateStore = applyMiddleware( promiseMiddleware )(createStore);
 
+/*
 // 讀取 routing table
 const routines = require('./js/routing.js');
 
@@ -42,11 +42,22 @@ routines.forEach( function(item){
         // 實驗：也可手動執行: redux.dispatch(...) 觸發 actions.addTodo()
         // store.dispatch( ShopActions.readAll() )
         // 但實務上我希望共用一份 routr 與其內部的 routing rule，因此採下列手法
-        routr[item.handler](req)
+
+        var ac = item.handler;
+        // var ac = routr[item.handler];
+        console.log( '\nac: ', ac, ' >req: ', req.params );
+
+        var p = store.dispatch( ac(req) );
+
+        console.log( '\npromise: ', p );
+
+        // routr[item.handler](req)
 
         // 當 then 觸發時，代表 redux 內部已取完資料，並且 state 準備好了
         // 即可開始組合 react 字串
-        .then( result => {
+        p.then( result => {
+
+            console.log( '資料撈好: ', result, ' >args: ', arguments );
 
             let markup = React.renderToString( <AppWrap store={store} /> );
             // var markup = React.renderToString( React.createElement(AppWrap, {store: store})); // 另種寫法
@@ -62,23 +73,23 @@ routines.forEach( function(item){
             res.send(str);
         });
     });
-})
+})*/
+
+// 示範如果要關掉 isomorphic 功能時該怎麼做
+// 手法就是同樣在 server 上模擬一個空白的字串返還，讓 client 端有東西可解開就好
+const str = index.replace('${markup}', '').replace('${state}', null);
+app.get('*', (req, res) => {
+  // 將組合好的 html 字串返還，request 處理至此完成
+  res.send(str);
+});
 
 // 示範可以正確在 server 上處理 404 頁面
 app.get('*', function(req, res) {
     res.send('404 - Page Not Found');
 })
 
-/*
-// 示範如果要關掉 isomorphic 功能時該怎麼做
-// 手法就是同樣在 server 上模擬一個空白的字串返還，讓 client 端有東西可解開就好
-app.get('*', (req, res) => {
-  var str = index.replace('${markup}', '').replace('${state}', null);
-  // 將組合好的 html 字串返還，request 處理至此完成
-  res.send(str);
 
-});
-*/
+
 
 app.listen(3000, function(){
     console.log('Listening on port 3000');

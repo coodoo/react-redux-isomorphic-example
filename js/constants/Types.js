@@ -2,7 +2,7 @@
 import Immutable from 'immutable';
 
 export const ProductState = Immutable.Record({
-	productsById: null,
+	productsById: Immutable.Map(),
 	currentProductId: undefined,
 	total: '0'
 })

@@ -50,7 +50,7 @@ export default class Routr {
 	todoReadAll(ctx) {
 
 		// 手法1：等資料取回後再廣播更新畫面
-		this.doAction('toggleLoading')(true, '載入中請稍候');	// 顯示 loading spinner
+		// this.doAction('toggleLoading')(true, '載入中請稍候');	// 顯示 loading spinner
 
 		// server rendering 時可偵聽這裏返還出去的 Promise，即能偵知 data fetching 完成
 		// 並且此期間先顯示 loading 訊息
@@ -60,7 +60,7 @@ export default class Routr {
 				   		// 意義等同這句 this.doAction('changeRoute')('master');
 				   		this.route('master');
 				   		this.doAction('toggleLoading')(false); // 關掉 loading spinner
-				   		// console.log( '資料抓好囉 - master' );
+				   		console.log( 'routr > 資料抓好囉 - master' );
 				   	});
 
 		// 手法2: 先切換畫面，再載入資料
@@ -78,12 +78,9 @@ export default class Routr {
 	todoReadOne(ctx) {
 		var id = ctx.params.id;
 
-		this.doAction('toggleLoading')(true, '載入中請稍候');	// 顯示 loading spinner
-
 		return this.doAction('readOne')(id)
 				   .then( () => {
 				   		this.route('detail');
-				   		this.doAction('toggleLoading')(false); // 關掉 loading spinner
 				   	});
 	}
 

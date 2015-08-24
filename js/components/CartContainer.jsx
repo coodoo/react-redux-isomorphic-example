@@ -1,7 +1,8 @@
-var React = require( 'react' );
-var Cart = require( './Cart.jsx' );
+import React from 'react';
+import Cart from './Cart.jsx';
+import { connect } from 'react-redux';
 
-
+@connect( state => {return state} )
 export default class CartContainer extends React.Component {
 
 	constructor(props, context){

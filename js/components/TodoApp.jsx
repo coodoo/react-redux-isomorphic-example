@@ -4,8 +4,6 @@ import * as ShopActions from '../actions/ShopActions';
 import CartContainer from './CartContainer';
 import ProductsContainer from './ProductsContainer';
 
-var actions
-
 export default class TodoApp extends Component {
 
   // <Connector> 是 container component，也就是 Dan 說的 smart component
@@ -14,16 +12,15 @@ export default class TodoApp extends Component {
   // 注意下面示範了 app 中可以有多個 <Connector> 元件，並且每個元件可 select 不同的 state
   render() {
 
-  	var view = this.props.children ? this.props.children : <ProductsContainer />;
-
 	return (
 		<div>
 
-			{this.props.view}
+			{this.props.main}
+			{this.props.cart}
 
-			<CartContainer carts={allStates.carts}
-	                          products={allStates.products}
-	                          actions={actions} />;
+			{/*<CartContainer carts={allStates.carts}
+				                          products={allStates.products}
+				                          actions={actions} />;*/}
 			}
 		</div>
 	);

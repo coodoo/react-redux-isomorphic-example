@@ -15,14 +15,14 @@ import TodoApp from './components/TodoApp';
 import ProductsContainer from './components/ProductsContainer';
 import ProductDetail from './components/ProductDetail';
 import {ProductState, ProductRecord, CartState, convertMapToImmutable} from './constants/Types';
-import {Router} from 'react-router';
+import {Router, Route} from 'react-router';
 import {history} from "react-router/lib/BrowserHistory";
 
 // devTools
 // import { devTools, persistState } from 'redux-devtools';
 
 // 客戶端嚐試還原 state，如果有找到這個 elem 並且有內容，就代表為 isomorphic 版本
-let state = null;
+/*let state = {products: {}, carts: {}};
 if( window.$REDUX_STATE ){
 
 	// 解開 server 預先傳來的資料包，稍後會放入 store 成為 initState
@@ -40,7 +40,7 @@ if( window.$REDUX_STATE ){
 
 	// 用完就刪掉
 	delete window.$REDUX_STATE
-}
+}*/
 
 // 就是 composeStores(), 將所有 stores 合併起來成為一個 composition(state, action) 指令
 // 將來操作它就等於操作所有 reducers
@@ -58,9 +58,10 @@ const finalCreateStore = applyMiddleware( promiseMiddleware )(cs);
 // 由於要用 Promise middleware，因此改用 applyMiddleware()
 // const finalCreateStore = applyMiddleware( promiseMiddleware )(createStore);
 
-let store = finalCreateStore(composedReducers, state);
+let store = finalCreateStore( composedReducers/*, state*/ );
 
 // mocked API
+// 因為現在單筆 product 資料改變時，並沒有真的存回 server，因此要依賴 store.getState() 來提供最新的狀態
 window.getProducts = function(){
 	return store.getState().products;
 }
@@ -70,22 +71,16 @@ window.getProducts = function(){
 
 // isomorphic 應用時，標示這個 store 內 state 已還原
 // 將阻止 routr 內另發一個請求去撈初始化資料
-store.__restored__ = (state != null);
+// window.$RESTORED = (state != null);
+window.$FETCHED = false;
 
-// 啟動 router
-// 會連帶觸發第一次　todoReadAll() 取回初始資料
-// var routr = new Routr(props.store);
+// 啟動 router，偷傳 store 進去方便它內部在每條 routing rule 啟動前先撈資料
+const routes = require("./routes/routing")(store);
 
 React.render(
 
 	<Provider store={store}>
-		{() => {
-			<Router history={history}>
-			  <Route path="/" component={TodoApp}>
-			    <Route path="/:id" component={ProductDetail} />
-			  </Route>
-			</Router>
-		}}
+		{ () => <Router history={history} children={routes} /> }
 	</Provider>,
 
 	document.querySelector('.container')

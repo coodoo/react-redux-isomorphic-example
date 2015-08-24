@@ -1,6 +1,6 @@
 export default [
 	{
-		id: 1,
+		id: 'a1',
 		image: "assets/images/ipad-mini.png",
 		inventory: 2,
 		quantity: 0,
@@ -8,7 +8,7 @@ export default [
 		title: "iPad 4 Mini"
 	},
 	{
-		id: 2,
+		id: 'a2',
 		image: "assets/images/t-shirt.png",
 		inventory: 10,
 		quantity: 0,
@@ -16,7 +16,7 @@ export default [
 		title: "H&M T-Shirt White"
 	},
 	{
-		id: 3,
+		id: 'a3',
 		image: "assets/images/sucker.png",
 		inventory: 5,
 		quantity: 0,

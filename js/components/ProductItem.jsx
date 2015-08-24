@@ -1,4 +1,5 @@
-var React = require( 'react' );
+import React from 'react';
+import {Link} from 'react-router';
 
 var ProductItem = React.createClass( {
   propTypes: {
@@ -29,7 +30,7 @@ var ProductItem = React.createClass( {
 			<br/>
 			<br/>
 			<br/>
-			<a href={ '/' + product.id}>details</a>
+			<Link to={`/${product.id}`}>details</Link>
 			<br/>
 		</div>
 	);
