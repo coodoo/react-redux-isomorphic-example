@@ -10,10 +10,8 @@ export default class TodoApp extends Component {
 
 	return (
 		<div>
-
 			{this.props.main}
 			{this.props.cart}
-
 		</div>
 	);
   }

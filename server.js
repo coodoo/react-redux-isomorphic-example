@@ -1,6 +1,7 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import React, { Component } from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom/server';
 import * as reducers from './js/reducers';
 import promiseMiddleware from './js/utils/PromiseMiddleware';
 import fs from 'fs';
@@ -8,79 +9,65 @@ import express from 'express';
 import path from 'path';
 import * as ShopActions from './js/actions/ShopActions';
 
+import {Router} from 'react-router';
+import Location from 'react-router/lib/Location';
+import routes from './js/routes/routing';
+
+// 重要：切換是否要啟用 server-rendering
+const $UNIVERSAL = true;
+
 // create the server app
 var app = express();
 
-// Static directories to make css and js work
+// serve static files like css and bundle.js
 app.use('/build', express.static(path.join(__dirname, 'build')))
 app.use('/assets', express.static(path.join(__dirname, 'assets')))
 
-// 讀入 index.html 將來好填入 react string
 const index = fs.readFileSync('assets/index.html', {encoding: 'utf-8'});
-
-// 這兩支可共用，因為是 side-effect free pure functions
 const composedReducers = combineReducers(reducers);
 const finalCreateStore = applyMiddleware( promiseMiddleware )(createStore);
 
-/*
-// 讀取 routing table
-const routines = require('./js/routing.js');
+// routing middleware where server-rendering magic happens
+function handleRouting(req, res){
 
-// 逐條建立 routing rule 與其相應的 routing handler
-routines.forEach( function(item){
+  let location = new Location(req.path, req.query);
+  let store = finalCreateStore( composedReducers );
+  let childRoutes = routes(store);
 
-    app.get(item.path, function(req, res){
+  Router.run( childRoutes, location, (error, initialState, transition) => {
 
-        console.log( '\nserver routing rule hit: ', req.url, ' >item: ', item );
+      var markup = ReactDOM.renderToString(
+        <Provider store={store}>
+            <Router {...initialState} />
+        </Provider>,
+      );
 
-        // 每次新的 request 進來時，都建立新的 store 與 routr 物件，
-        // 以避免資料在不同 request 間共享
-        let store = finalCreateStore(composedReducers);
-        let routr = new Routr(store);
+      let state = JSON.stringify(store.getState());
 
-        // 實驗：也可手動執行: redux.dispatch(...) 觸發 actions.addTodo()
-        // store.dispatch( ShopActions.readAll() )
-        // 但實務上我希望共用一份 routr 與其內部的 routing rule，因此採下列手法
+      var str = index
+                .replace('${markup}', markup)
+                .replace('${state}', state);
 
-        var ac = item.handler;
-        // var ac = routr[item.handler];
-        console.log( '\nac: ', ac, ' >req: ', req.params );
+      // 將組合好的 html 字串返還，request 處理至此完成
+      res.send(str);
+  });
 
-        var p = store.dispatch( ac(req) );
+};
 
-        console.log( '\npromise: ', p );
+if( $UNIVERSAL ){
+    app.use( handleRouting );
+}else{
 
-        // routr[item.handler](req)
-
-        // 當 then 觸發時，代表 redux 內部已取完資料，並且 state 準備好了
-        // 即可開始組合 react 字串
-        p.then( result => {
-
-            console.log( '資料撈好: ', result, ' >args: ', arguments );
-
-            let markup = React.renderToString( <AppWrap store={store} /> );
-            // var markup = React.renderToString( React.createElement(AppWrap, {store: store})); // 另種寫法
-
-            // 將 store 內 state tree 序列化塞入網頁內，將來到 client 端再取出
-            let state = JSON.stringify(store.getState());
-
-            var str = index
-                      .replace('${markup}', markup)
-                      .replace('${state}', state);
-
-            // 將組合好的 html 字串返還，request 處理至此完成
-            res.send(str);
-        });
+    // 如果要關掉 server rendering 時，手法如下：
+    // 手法就是同樣在 server 上模擬一個空白的字串返還，讓 client 端有東西可解開就好
+    const str = index.replace('${markup}', '').replace('${state}', null);
+    app.get('*', (req, res) => {
+      // 將組合好的 html 字串返還，request 處理至此完成
+      res.send(str);
     });
-})*/
+}
 
-// 示範如果要關掉 isomorphic 功能時該怎麼做
-// 手法就是同樣在 server 上模擬一個空白的字串返還，讓 client 端有東西可解開就好
-const str = index.replace('${markup}', '').replace('${state}', null);
-app.get('*', (req, res) => {
-  // 將組合好的 html 字串返還，request 處理至此完成
-  res.send(str);
-});
+
 
 // 示範可以正確在 server 上處理 404 頁面
 app.get('*', function(req, res) {
