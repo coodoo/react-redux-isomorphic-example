@@ -19,9 +19,10 @@ import ProductDetail from './components/ProductDetail';
 import {ProductState, ProductRecord, CartState, convertMapToImmutable} from './constants/Types';
 import {Router, Route} from 'react-router';
 import {history} from "react-router/lib/BrowserHistory";
+import { devTools, persistState } from 'redux-devtools';
 
-// devTools
-// import { devTools, persistState } from 'redux-devtools';
+// 是否開啟 redux_devtool 面板
+window.$REDUX_DEVTOOL = false;
 
 // 客戶端嚐試還原 state，如果有找到這個 elem 並且有內容，就代表為 isomorphic 版本
 let state = null;
@@ -52,12 +53,13 @@ if( window.$REDUX_STATE ){
 // 將來操作它就等於操作所有 reducers
 const composedReducers = combineReducers(reducers);
 
-// 加掛上 reudx-devtools
-// buggy, disabled for now @Jul 28, 2015 16:54
-var cs = compose(
-	// devTools(),
-	// persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
-	createStore);
+// 掛上 reudx-devtools
+let cs;
+if( window.$REDUX_DEVTOOL ){
+	cs = compose( devTools(), createStore );
+}else{
+	cs = createStore;
+}
 
 const finalCreateStore = applyMiddleware( promiseMiddleware )(cs);
 

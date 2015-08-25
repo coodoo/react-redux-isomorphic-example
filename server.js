@@ -16,7 +16,6 @@ import routes from './js/routes/routing';
 // 重要：切換是否要啟用 server-rendering
 const $UNIVERSAL = true;
 
-// create the server app
 var app = express();
 
 // serve static files like css and bundle.js
