@@ -7,7 +7,6 @@ import fs from 'fs';
 import express from 'express';
 import path from 'path';
 import * as ShopActions from './js/actions/ShopActions';
-import Routr from './js/utils/routr';
 
 // create the server app
 var app = express();
