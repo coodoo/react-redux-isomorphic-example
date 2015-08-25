@@ -5,17 +5,27 @@ import ProductDetail from '../components/ProductDetail';
 import CartContainer from '../components/CartContainer';
 import * as ShopActions from '../actions/ShopActions';
 
-// 注意 store 偷傳進來了
+// 注意傳了 redux store 進來
 export default function routes(store) {
 
     // bind 一次之後可重覆用
     const actions = bindActionCreators(ShopActions, store.dispatch);
 
     // 目地：盡量讓這支 fn 可泛用
-    function fetchData( actionFn ){
+    // cond 是條件式，用來判斷資料是否已存在，即不會重覆撈取
+    function fetchCommon( actionFn, cond ){
         return (state, transition, callback) => {
-            console.log( 'fetchData run' );
-            console.log( 'state.params: ', state.params );
+
+            // debugger; // 看是否已撈過
+            // console.log( '$fetched: ', store.getState().products.toJS() );
+
+            // 如果 all data set 已撈過，就不重撈
+            // 傳入整包 store state 供條件式內部判斷
+            if( cond( store.getState() ) ){
+                return callback();
+            }
+
+            // console.log( 'fetchData run >params: ', state.params );
             // 一律整包 state.params 送進去 ShopAction，那裏再 destructuring 取出要的欄位即可
             actionFn( state.params )
             .then( result => callback(),
@@ -23,12 +33,12 @@ export default function routes(store) {
         }
     }
 
-    // 除了共用 fetchData() 外，如需特別判斷邏輯，也可改用獨立的 fetch fn
+    // 除了共用 fetchCommon() 外，如需特別判斷邏輯，也可改用獨立的 fetch fn
     // 此時就可直接操作 action.readOne() 了，但一樣透過 state.params.id 取得參睥
     function fetchOne(){
         return (state, transition, callback) => {
 
-            console.log( '\nfetchOne run');
+            // console.log( '\nfetchOne run');
 
             // 先檢查是否已撈過該筆資料，沒有的話才回 server 取
             let existed = store.getState().products.productsById.get(state.params.id) != null;
@@ -42,14 +52,13 @@ export default function routes(store) {
     }
 
     return {
-    // onEnter: TodoApp.onEnterCreator(store),
     component: TodoApp,
     childRoutes: [
 
       {
         path: "/",
         components: {main: ProductsContainer, cart: CartContainer},
-        onEnter: fetchData( actions.readAll ),
+        onEnter: fetchCommon( actions.readAll, (state) => { return state.products.$fetched==true} ),
       },
       {
         path: "/:id",
@@ -57,7 +66,6 @@ export default function routes(store) {
         onEnter: fetchOne(),
         // onEnter: ProductDetail.onEnterCreator(store),
       },
-
       {
         path: "*",
         onEnter(state, transition) {

@@ -1,42 +1,36 @@
-var shop = require('../api/shop');
+import shopdb from '../api/shopdb';
+import {List, ProductRecord, convertToRecordMap } from '../constants/Types';
 
 // WebAPIUitl 的角色是操作 remote REST API
 // 並負責轉換取回的物件為正確的格式
 export default {
 
+    // 從 REST API 取回一包 JSON string，立即 parse 後再轉回為 Immutable.Record 物件
+    // 然後才允許此物件進入系統內流通
     getAllProducts: function() {
-        console.log( '\n\tWebAPIUtil::getAllProducts run' );
-
-        if( 'undefined' == typeof window ||
-            ('undefined' !== typeof window && window.$FETCHED == false) ){
-
-            console.log( '撈原始資料' );
-            window.$FETCHED = true;
-
-            // on server, or first time on client
-            return shop.getProducts().then( result => {
-                console.log( 'WebAPIUtil 先看結果: ', result );
-                return result;
-            });
-
-        }else{
-            console.log( '撈 window.getProducts 資料' );
-            // hack
-            return Promise.resolve(window.getProducts().productsById);
-        }
-
+        // console.log( '\n\tWebAPIUtil::getAllProducts run' );
+        return shopdb.getProducts().then( result => {
+            return convertToRecordMap( JSON.parse(result), ProductRecord )
+        });
     },
 
     getOneProduct: function(id) {
-        console.log( '\n\tWebAPIUtil::getOneProduct run' );
-        return shop.getOneProduct(id);
+        // console.log( '\n\tWebAPIUtil::getOneProduct run' );
+        return shopdb.getOneProduct(id)
+                     .then( result => new ProductRecord(JSON.parse(result)) );
     },
 
     addToCart: function(product){
-        return shop.addToCart(product.id);
+        // console.log( '\n\tWebAPIUtil::addToCart run' );
+        return shopdb.addToCart(product.id)
+                     .then( result => new ProductRecord(JSON.parse(result)) );
     },
 
-    checkoutProducts: function(products) {
-        return shop.buyProducts(products);
+    //
+    checkoutProducts: function( cartsByid:List ) {
+        // console.log( '\n\tWebAPIUtil::checkoutProducts run' );
+        return shopdb.checkoutProducts( JSON.stringify(cartsByid) )
+                     .then( result => JSON.parse(result) )
+                     .catch( err => console.log( '交易出錯: ', err ) );
     }
 };

@@ -7,13 +7,7 @@ import ProductsList from './ProductsList.jsx';
 import ProductItemContainer from './ProductItemContainer.jsx';
 import * as ShopActions from '../actions/ShopActions';
 
-// @fetchData( (store) => {
-// 	// 順便幫忙 bind 一下 actions
-// 	this.actions = bindActionCreators(ShopActions, store.dispatch);
-// 	var re = this.actions.readAll();
-// 	console.log( 're: ', re );
-// 	return re;
-// })
+// 使用 @connect 精準獲取這個 view 需要的資料源，如此可減少日後不必要的 redraw
 @connect( state => {return {products: state.products}} )
 export default class ProductsContainer extends React.Component {
 

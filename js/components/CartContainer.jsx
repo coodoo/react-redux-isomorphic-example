@@ -1,12 +1,15 @@
 import React from 'react';
 import Cart from './Cart.jsx';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as ShopActions from '../actions/ShopActions';
 
 @connect( state => {return state} )
 export default class CartContainer extends React.Component {
 
 	constructor(props, context){
 		super(props, context);
+		this.actions = bindActionCreators(ShopActions, props.dispatch);
 	}
 
 	//
@@ -17,7 +20,7 @@ export default class CartContainer extends React.Component {
 			return;
 		}
 
-		this.props.actions.cartCheckout(this.props.carts.cartsById);
+		this.actions.cartCheckout(this.props.carts.cartsById);
 	}
 
 	render() {

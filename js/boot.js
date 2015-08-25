@@ -60,20 +60,6 @@ const finalCreateStore = applyMiddleware( promiseMiddleware )(cs);
 
 let store = finalCreateStore( composedReducers/*, state*/ );
 
-// mocked API
-// 因為現在單筆 product 資料改變時，並沒有真的存回 server，因此要依賴 store.getState() 來提供最新的狀態
-window.getProducts = function(){
-	return store.getState().products;
-}
-
-// 基礎版 - 不需 promiseMiddleware 時，可用原本的 createStore() 來建立 store instance
-// const store = createStore(composedReducers);
-
-// isomorphic 應用時，標示這個 store 內 state 已還原
-// 將阻止 routr 內另發一個請求去撈初始化資料
-// window.$RESTORED = (state != null);
-window.$FETCHED = false;
-
 // 啟動 router，偷傳 store 進去方便它內部在每條 routing rule 啟動前先撈資料
 const routes = require("./routes/routing")(store);
 
