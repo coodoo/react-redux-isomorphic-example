@@ -6,6 +6,8 @@
 
  */
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+// var ReactDOMServer = require('react-dom/server');
 import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import Immutable from 'immutable';
 import { Provider } from 'react-redux';
@@ -63,10 +65,10 @@ let store = finalCreateStore( composedReducers/*, state*/ );
 // 啟動 router，偷傳 store 進去方便它內部在每條 routing rule 啟動前先撈資料
 const routes = require("./routes/routing")(store);
 
-React.render(
+ReactDOM.render(
 
 	<Provider store={store}>
-		{ () => <Router history={history} children={routes} /> }
+		<Router history={history} children={routes} />
 	</Provider>,
 
 	document.querySelector('.container')

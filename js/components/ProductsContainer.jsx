@@ -22,7 +22,8 @@ export default class ProductsContainer extends React.Component {
 
 	render() {
 	  let products = this.props.products;
-	  var nodes = products.productsById.map( product => {
+	  // 重要：將 Immutable.Map 轉成 Sequence (類似 [ ReactElement, ReactElement, ReactElement])
+	  var nodes = products.productsById.valueSeq().map( product => {
 		return <ProductItemContainer
 				  key={product.id}
 				  product={product}
