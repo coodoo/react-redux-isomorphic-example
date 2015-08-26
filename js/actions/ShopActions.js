@@ -4,6 +4,8 @@ import WebAPIUtils from '../utils/WebAPIUtils'
 
 export function readAll() {
 	return {
+		// 為了 optimistic update，可透過 REQUEST | SUCCESS | ERROR 三狀態來決定 store 內做何種細微處理
+		// 這裏宣告三種狀態要用的真實名稱
 		types: [ types.READ_ALL_PRODUCTS_REQUEST, types.READ_ALL_PRODUCTS_SUCCESS, types.READ_ALL_PRODUCTS_ERROR ],
 		// WebAPIUtils 會操作遠端 REST API 獲取資料
 		promise: WebAPIUtils.getAllProducts()//.then( result => console.log( '先看結果: ', result ) )
@@ -22,28 +24,26 @@ export function readOne( {id, existed} ) {
 	// console.log( 'readOne 拿到 id: ', id, ' >existed: ', existed );
 
 	// 物件已存在時，直接偽造一個 resolved promise 物件，目地是觸發 ProductReducer::READ_ONE_PRODUCT_SUCCESS
-	// 正確設定 currentProductId 的值，但又不會直接塞一筆新資料到 productsById
+	// 正確設定 currentProductId 的值，但又不會真的回 server 撈資料(以節省時間)
 	if( existed ){
 		// console.log( '單筆資料已存在，不重撈' );
 		return {
 			types: [ null, types.READ_ONE_PRODUCT_SUCCESS, null],
 			promise: Promise.resolve({id}),
-			existed,	// 多傳這個參數讓 ProductReducer 知道不需再將 result 放入 productsByid map 內
 		}
+	} else {
+		// 正常流程會進到這裏，例如網址列直接存取 /a2 這個物件
+		return {
+			types: [ types.READ_ONE_PRODUCT_REQUEST, types.READ_ONE_PRODUCT_SUCCESS, types.READ_ONE_PRODUCT_ERROR ],
+			promise: WebAPIUtils.getOneProduct(id)
+		};
 	}
 
-	// 正常流程會進到這裏，例如網址列直接存取 /a2 這個物件
-	return {
-		types: [ types.READ_ONE_PRODUCT_REQUEST, types.READ_ONE_PRODUCT_SUCCESS, types.READ_ONE_PRODUCT_ERROR ],
-		promise: WebAPIUtils.getOneProduct(id)
-	};
 
 }
 
 export function addToCart(product) {
 	return {
-		// 為了 optimistic update，可透過 REQUEST | SUCCESS | ERROR 三狀態來決定 store 內做何種細微處理
-		// 這裏宣告三種狀態要用的真實名稱
 		types: [ types.ADD_TO_CART_REQUEST, types.ADD_TO_CART_SUCCESS, types.ADD_TO_CART_ERROR ],
 		promise: WebAPIUtils.addToCart(product)
 	};

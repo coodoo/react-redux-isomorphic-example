@@ -26,7 +26,7 @@ function READ_ONE_PRODUCT_SUCCESS( state, action ){
 	})
 
 	// 但如果真的有回 server 撈資料，就要繼續跑這段
-	if( !action.existed ){
+	if( !state.productsById.get(action.result.id) ){
 		state = state.update('productsById', map => {
 			return map.set( action.result.id, action.result );
 		})

@@ -12,21 +12,21 @@ export default function routes(store) {
     const actions = bindActionCreators(ShopActions, store.dispatch);
 
     // 目地：盡量讓這支 fn 可泛用
-    // cond 是條件式，用來判斷資料是否已存在，即不會重覆撈取
-    function fetchCommon( actionFn, cond ){
+    // predicate 是條件式，用來判斷資料是否已存在，即不會重覆撈取；如果它返還 true 就不會繼續執行下去
+    function fetchCommon( actionFn, predicate ){
         return (state, transition, callback) => {
 
             // debugger; // 看是否已撈過
             // console.log( '$fetched: ', store.getState().products.toJS() );
 
-            // 如果 all data set 已撈過，就不重撈
+            // 例如 all data set 如已撈過，就不重抓
             // 傳入整包 store state 供條件式內部判斷
-            if( cond( store.getState() ) ){
+            if( predicate( store.getState(), state ) ){
                 return callback();
             }
 
             // console.log( 'fetchData run >params: ', state.params );
-            // 一律整包 state.params 送進去 ShopAction，那裏再 destructuring 取出要的欄位即可
+            // state.params 整包送進去 ShopAction，那裏再 destructuring 取出要的欄位即可
             actionFn( state.params )
             .then( result => callback(),
                    err => callback(err) );
@@ -58,7 +58,7 @@ export default function routes(store) {
       {
         path: "/",
         components: {main: ProductsContainer, cart: CartContainer},
-        onEnter: fetchCommon( actions.readAll, (state) => { return state.products.$fetched==true} ),
+        onEnter: fetchCommon( actions.readAll, (reduxState) => { return reduxState.products.$fetched==true} ),
       },
       {
         path: "/:id",
