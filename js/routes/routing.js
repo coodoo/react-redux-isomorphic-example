@@ -38,10 +38,13 @@ export default function routes(store) {
     function fetchOne(){
         return (state, transition, callback) => {
 
-            // console.log( '\nfetchOne run');
 
             // 先檢查是否已撈過該筆資料，沒有的話才回 server 取
             let existed = store.getState().products.productsById.get(state.params.id) != null;
+
+            console.log( '\nfetchOne run > existed: ', existed);
+            // callback();
+            // return setImmediate( ()=>callback())
 
             // 一律整包 state.params 送進去 ShopAction，那裏再 destructuring 取出要的欄位即可
             // 注意多塞了 existed 屬性，避免重覆撈取已存在的資料

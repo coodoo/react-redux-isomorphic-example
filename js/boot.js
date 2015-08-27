@@ -45,7 +45,7 @@ if( window.$REDUX_STATE ){
 	// 用完就刪掉
 	delete window.$REDUX_STATE;
 
-	console.log( 'state restored' );
+	console.log( 'state restored: ', state.products.toJS(), state.carts.toJS() );
 }
 
 

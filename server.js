@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import React from 'react';
-import ReactDOM from 'react-dom/server';
+import ReactDOMServer from 'react-dom/server';
 import * as reducers from './js/reducers';
 import promiseMiddleware from './js/utils/PromiseMiddleware';
 import fs from 'fs';
@@ -35,7 +35,7 @@ function handleRouting(req, res){
 
   Router.run( childRoutes, location, (error, initialState, transition) => {
 
-      var markup = ReactDOM.renderToString(
+      var markup = ReactDOMServer.renderToString(
         <Provider store={store}>
             <Router {...initialState} />
         </Provider>,
