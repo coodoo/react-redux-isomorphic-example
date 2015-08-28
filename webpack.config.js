@@ -8,7 +8,7 @@ module.exports = {
   entry: [
     // 'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
-    './js/boot' // boot.js 是進入點
+    './js/boot-client' // client app 的進入點
   ],
 
   //
