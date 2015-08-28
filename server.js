@@ -18,6 +18,7 @@ const $UNIVERSAL = true;
 
 var app = express();
 
+
 // serve static files like css and bundle.js
 app.use('/build', express.static(path.join(__dirname, 'build')))
 app.use('/assets', express.static(path.join(__dirname, 'assets')))

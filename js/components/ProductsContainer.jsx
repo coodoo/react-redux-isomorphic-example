@@ -31,7 +31,7 @@ export default class ProductsContainer extends React.Component {
 	  });
 
 	  return (
-		<ProductsList title="Flux Shop Demo (Redux)">
+		<ProductsList title="Flux Shop Demo (Redux)" key="productList">
 		  {nodes}
 		</ProductsList>
 	  );

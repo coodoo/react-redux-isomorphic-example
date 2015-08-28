@@ -30,6 +30,7 @@ export default function routes(store) {
             actionFn( state.params )
             .then( result => callback(),
                    err => callback(err) );
+
         }
     }
 
@@ -38,12 +39,10 @@ export default function routes(store) {
     function fetchOne(){
         return (state, transition, callback) => {
 
-
             // 先檢查是否已撈過該筆資料，沒有的話才回 server 取
             let existed = store.getState().products.productsById.get(state.params.id) != null;
 
             console.log( '\nfetchOne run > existed: ', existed);
-            // callback();
             // return setImmediate( ()=>callback())
 
             // 一律整包 state.params 送進去 ShopAction，那裏再 destructuring 取出要的欄位即可
@@ -51,6 +50,9 @@ export default function routes(store) {
             actions.readOne( {...state.params, existed} )
             .then( result => callback(),
                    err => callback(err) );
+
+            // 一律先觸發 callback 讓 react-router transition 順利進行下去
+            callback();
         }
     }
 
@@ -66,8 +68,8 @@ export default function routes(store) {
       {
         path: "/:id",
         components: {main: ProductDetail, cart: CartContainer},
-        onEnter: fetchOne(),
-        // onEnter: ProductDetail.onEnterCreator(store),
+        onEnter: ProductDetail.onEnter(store),  // 示範使用 @decorator 做 aysnc data-fetching
+        // onEnter: fetchOne(), // 示範較單純的 async data-fetching 手法
       },
       {
         path: "*",

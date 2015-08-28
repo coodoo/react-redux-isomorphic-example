@@ -33,7 +33,7 @@ if( window.$REDUX_STATE ){
 
 	// begin marshalling data into Immutable types
 	state.products = new ProductState({
-		$fetched: true,
+		$fetched: document.location.pathname == '/',
 		productsById: convertMapToImmutable(state.products.productsById, ProductRecord),
 		total: state.products.total,
 		currentProductId: state.products.currentProductId,
@@ -45,7 +45,7 @@ if( window.$REDUX_STATE ){
 	// 用完就刪掉
 	delete window.$REDUX_STATE;
 
-	console.log( 'state restored: ', state.products.toJS(), state.carts.toJS() );
+	// console.log( 'state restored: ', state.products.toJS(), state.carts.toJS() );
 }
 
 

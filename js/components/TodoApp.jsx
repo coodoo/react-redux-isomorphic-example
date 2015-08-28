@@ -14,7 +14,11 @@ export default class TodoApp extends Component {
 	};
 
   render() {
+  	// console.log( 'TodoApp > props: ', this.props );
 
+  	const { isTransitioning } = this.props;
+
+  	// toggle redux-devPanel
 	var tool;
 	if ('undefined' !== typeof window && window.$REDUX_DEVTOOL == true ) {
 		tool = <DebugPanel top right bottom>
@@ -22,13 +26,26 @@ export default class TodoApp extends Component {
 			   </DebugPanel>
 	}
 
-	return (
-		<div>
-			{this.props.main}
-			{this.props.cart}
-			{tool}
-		</div>
-	);
+	let nodes;
+
+	if(isTransitioning){
+		nodes = (
+			<div>
+				{<div>LOADING...</div>}
+				{tool}
+			</div>
+		)
+	}else{
+		nodes = (
+			<div>
+				{this.props.main}
+				{this.props.cart}
+				{tool}
+			</div>
+		)
+	}
+
+	return nodes;
   }
 
 }
