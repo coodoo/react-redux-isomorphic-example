@@ -17,7 +17,11 @@ export default {
     getOneProduct: function(id) {
         // console.log( '\n\tWebAPIUtil::getOneProduct run' );
         return shopdb.getOneProduct(id)
-                     .then( result => new ProductRecord(JSON.parse(result)) );
+                     .then( result => new ProductRecord(JSON.parse(result)) )
+                     /*.then(result=>{
+                        console.log( '偷看 result: ', result.toJS() );
+                        return result;
+                     });*/
     },
 
     addToCart: function(product){

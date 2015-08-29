@@ -1,13 +1,5 @@
-/*
-	這是 non-isomorphic 版本的進入點
-	由它負責建立 composedReducers, finalCreateStore 與 store instance
-
-	如果是 isomorphic 版，則由 srever.js 負責做這些事
-
- */
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-// var ReactDOMServer = require('react-dom/server');
 import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import Immutable from 'immutable';
 import { Provider } from 'react-redux';
@@ -23,6 +15,8 @@ import { devTools, persistState } from 'redux-devtools';
 
 // 是否開啟 redux_devtool 面板
 window.$REDUX_DEVTOOL = false;
+// 資料是否已由 server 生成過，並在 client 還原了，如此可避免 client code 再撈一次資料
+window.$RESTORED = false;
 
 // 客戶端嚐試還原 state，如果有找到這個 elem 並且有內容，就代表為 isomorphic 版本
 let state = null;
@@ -44,6 +38,8 @@ if( window.$REDUX_STATE ){
 
 	// 用完就刪掉
 	delete window.$REDUX_STATE;
+
+	window.$RESTORED = true;
 
 	// console.log( 'state restored: ', state.products.toJS(), state.carts.toJS() );
 }

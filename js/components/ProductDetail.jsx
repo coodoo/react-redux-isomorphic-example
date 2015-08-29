@@ -33,7 +33,10 @@ export default class extends React.Component {
 		var p = this.props.products;
 		var product = p.productsById.get( p.currentProductId );
 
-		if(!product) return null;
+		if(!product){
+			// console.log( 'productDetail > 沒物件喔: ' );
+			return <div>Product Not Found</div>
+		}
 
 		var styles = {
 			backgroundColor: '#FFDC00'

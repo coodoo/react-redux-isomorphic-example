@@ -15,7 +15,7 @@ export default function fetchData( fn ) {
             promise.then( result => callback(), err => callback(err) );
 
             // 一律先觸發 callback 讓 react-router transition 順利進行下去
-            callback();
+            if ('undefined' !== typeof window && window.$RESTORED == true ) callback();
         }
     }
 

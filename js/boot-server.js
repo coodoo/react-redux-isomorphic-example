@@ -28,11 +28,17 @@ function handleRouting(req, res, next){
 
   Router.run( childRoutes, location, (error, initialState, transition) => {
 
+      // 找不到 match 的 routing，就丟出去給外層處理
+      /*if(transition.isCancelled){
+        return next();
+      }*/
+
       var markup = ReactDOM.renderToString(
         <Provider store={store}>
             <Router {...initialState} />
         </Provider>,
       );
+
 
       let state = JSON.stringify(store.getState());
 
@@ -40,7 +46,7 @@ function handleRouting(req, res, next){
                 .replace('${markup}', markup)
                 .replace('${state}', state);
 
-	  // console.log( '\nstr: ', str );
+      // console.log( '\n生成 markup:\n', str );
 
       // 將組合好的 html 字串返還，request 處理至此完成
       res.send(str);

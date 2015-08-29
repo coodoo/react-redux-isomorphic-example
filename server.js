@@ -26,7 +26,7 @@ if( $UNIVERSAL ){
 
 // 示範可以正確在 server 上處理 404 頁面
 app.get('*', function(req, res) {
-    res.send('404 - Page Not Found');
+    res.send('Server.js > 404 - Page Not Found');
 })
 
 // Catch server error

@@ -16,7 +16,7 @@ function READ_ALL_PRODUCTS_SUCCESS( state, action ){
 }
 
 function READ_ONE_PRODUCT_REQUEST( state, action ){ return state; }
-function READ_ONE_PRODUCT_ERROR( state, action ){ return state; }
+function READ_ONE_PRODUCT_ERROR( state, action ){ console.error( action ); return state; }
 function READ_ONE_PRODUCT_SUCCESS( state, action ){
 
 	// 點選單筆資料時，會先判斷該資料是否已存在於 productsById map 內
