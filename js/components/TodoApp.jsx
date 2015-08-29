@@ -4,6 +4,10 @@ import * as ShopActions from '../actions/ShopActions';
 import CartContainer from './CartContainer';
 import ProductsContainer from './ProductsContainer';
 
+if ("undefined" !== typeof window) {
+	require('../../assets/css/main.css');
+}
+
 // devTools
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 
