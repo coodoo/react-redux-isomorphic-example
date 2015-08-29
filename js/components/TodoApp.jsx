@@ -35,7 +35,9 @@ export default class TodoApp extends Component {
 				{tool}
 			</div>
 		)
+
 	}else{
+
 		nodes = (
 			<div>
 				{this.props.main}

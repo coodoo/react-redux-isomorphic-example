@@ -6,29 +6,23 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval',  // source-map, eval
   entry: [
-    // 'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
     './js/boot-client' // client app 的進入點
   ],
 
   //
   output: {
-    path: path.join(__dirname, 'build'),
+    path: './build',
     filename: 'bundle.js',
-    publicPath: '/static/'
+    publicPath: '/build/'
   },
 
   //
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    // new webpack.NoErrorsPlugin()
   ],
 
   //
   resolve: {
     alias: {
-      // 'redux': path.join(__dirname, '..', '..', 'src')
-      // 'redux': 'redux'
     },
     // require() 時不用加 .suffix
     extensions: ['', '.js', '.jsx']
@@ -40,21 +34,15 @@ module.exports = {
 
     {
       test: /\.jsx?$/,
-      loaders: ['react-hot', 'babel?stage=0'],
+      loaders: ['babel?stage=0&compact=false'],
       exclude: /node_modules/,
       include: __dirname
     },
 
     {
-      test: /\.jsx?$/,
-      loaders: ['babel?stage=0'],
-      // include: path.join(__dirname, '..', '..', 'src')
+      test: /\.css$/,
+      loader: "style!css",
     },
-
-    {
-      test: /\.css?$/,
-      loaders: ['style', 'raw'],
-      include: __dirname
-    }]
+    ]
   }
 };

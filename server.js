@@ -1,17 +1,6 @@
-import { applyMiddleware, createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import * as reducers from './js/reducers';
-import promiseMiddleware from './js/utils/PromiseMiddleware';
 import fs from 'fs';
 import express from 'express';
 import path from 'path';
-import * as ShopActions from './js/actions/ShopActions';
-
-import {Router} from 'react-router';
-import Location from 'react-router/lib/Location';
-import routes from './js/routes/routing';
 
 import serverRenderer from './js/boot-server';
 
