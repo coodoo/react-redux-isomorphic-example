@@ -29,13 +29,16 @@ app.get('*', function(req, res) {
     res.send('Server.js > 404 - Page Not Found');
 })
 
-// Catch server error
-app.use((err, req, res) => {
+// Catch server error，注意要四個參數
+app.use((err, req, res, next) => {
   console.error("Error on request %s %s", req.method, req.url);
   console.error(err.stack);
   res.status(500).send("Server error");
 });
 
+process.on('uncaughtException', evt => {
+  console.log( 'uncaughtException 抓到了' );
+})
 
 app.listen(3000, function(){
     console.log('Listening on port 3000');

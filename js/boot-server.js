@@ -28,6 +28,9 @@ function handleRouting(req, res, next){
 
   Router.run( childRoutes, location, (error, initialState, transition) => {
 
+      // 如果找不到 match 的 route，也可噴錯，丟出去給外層處理
+      // return next('err msg: route not found');
+
       // 找不到 match 的 routing，就丟出去給外層處理
       /*if(transition.isCancelled){
         return next();
@@ -56,6 +59,5 @@ function handleRouting(req, res, next){
 };
 
 module.exports = function(app){
-	// console.log( 'server render 有跑' );
 	app.use(handleRouting);
 }
