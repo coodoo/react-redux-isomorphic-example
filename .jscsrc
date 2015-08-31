@@ -1,6 +1,5 @@
 {
-  "preset": "jquery",
-  "esprima": "esprima-fb",
+  "preset":"airbnb",
   "fileExtensions": [
     ".js",
     ".jsx"
@@ -14,11 +13,6 @@
     "package/**",
     "shared/**"
   ],
-  "esnext": true,
-  "validateQuoteMarks": "'",
-  "maximumLineLength": {
-      "value": 120,
-      "tabSize": 4,
-      "allExcept": ["urlComments", "regex"]
-  }
+  "validateIndentation": "\t",
+  "requireSpacesInsideParentheses": "all"
 }
