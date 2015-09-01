@@ -4,8 +4,8 @@ import * as ShopActions from '../actions/ShopActions';
 import CartContainer from './CartContainer';
 import ProductsContainer from './ProductsContainer';
 
-if ("undefined" !== typeof window) {
-	require('../../assets/css/main.css');
+if ( 'undefined' !== typeof window ) {
+	require( '../../assets/css/main.css' );
 }
 
 // devTools
@@ -14,17 +14,17 @@ import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 export default class TodoApp extends Component {
 
 	static contextTypes = {
-	  store: React.PropTypes.object.isRequired
+		store: React.PropTypes.object.isRequired,
 	};
 
   render() {
-  	// console.log( 'TodoApp > props: ', this.props );
+	// console.log( 'TodoApp > props: ', this.props );
 
-  	const { isTransitioning } = this.props;
+	const { isTransitioning } = this.props;
 
-  	// toggle redux-devPanel
+	// toggle redux-devPanel
 	var tool;
-	if ('undefined' !== typeof window && window.$REDUX_DEVTOOL == true ) {
+	if ( 'undefined' !== typeof window && window.$REDUX_DEVTOOL == true ) {
 		tool = <DebugPanel top right bottom>
 				<DevTools store={this.context.store} monitor={LogMonitor} />
 			   </DebugPanel>
@@ -32,7 +32,7 @@ export default class TodoApp extends Component {
 
 	let nodes;
 
-	if(isTransitioning){
+	if ( isTransitioning ) {
 		nodes = (
 			<div>
 				{<div>LOADING...</div>}
@@ -40,7 +40,7 @@ export default class TodoApp extends Component {
 			</div>
 		)
 
-	}else{
+	}else {
 
 		nodes = (
 			<div>
