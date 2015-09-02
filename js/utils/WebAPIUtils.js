@@ -8,14 +8,14 @@ export default {
     // 從 REST API 取回一包 JSON string，立即 parse 後再轉回為 Immutable.Record 物件
     // 然後才允許此物件進入系統內流通
     getAllProducts: function() {
-        console.log( '\n\tWebAPIUtil::getAllProducts run' );
+        // console.log( '\n\tWebAPIUtil::getAllProducts run' );
         return shopdb.getProducts().then( result => {
             return convertToRecordMap( JSON.parse(result), ProductRecord )
         });
     },
 
     getOneProduct: function(id) {
-        console.log( '\n\tWebAPIUtil::getOneProduct run' );
+        // console.log( '\n\tWebAPIUtil::getOneProduct run' );
         return shopdb.getOneProduct(id)
                      .then( result => new ProductRecord(JSON.parse(result)) )
                      /*.then(result=>{
