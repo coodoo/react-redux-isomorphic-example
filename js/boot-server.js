@@ -1,19 +1,24 @@
 import fs from 'fs';
 import path from 'path';
+
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import { applyMiddleware, createStore, combineReducers } from 'redux';
-import promiseMiddleware from './utils/PromiseMiddleware';
+
+import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import * as reducers from './reducers';
+
+import promiseMiddleware from './middlewares/PromiseMiddleware';
+import combinedReducers from './reducers';
+
 import {Router} from 'react-router';
-import Location from 'react-router/lib/Location';
+import { RoutingContext, match } from 'react-router'
+import createLocation from 'history/lib/createLocation'
 import routes from './routes/routing';
+// import Location from 'react-router/lib/Location';
 
 
 // const index = fs.readFileSync( path.resolve('../assets/index.html'), {encoding: 'utf-8'});
 const index = fs.readFileSync( './assets/index.html', {encoding: 'utf-8'});
-const composedReducers = combineReducers(reducers);
 const finalCreateStore = applyMiddleware( promiseMiddleware )(createStore);
 
 // routing middleware where server-rendering magic happens
@@ -22,40 +27,57 @@ const finalCreateStore = applyMiddleware( promiseMiddleware )(createStore);
 // for now there's no reliable way to do this, `Router.match()` just got scraped on the main branch.
 function handleRouting(req, res, next){
 
-  let location = new Location(req.path, req.query);
-  let store = finalCreateStore( composedReducers );
-  let childRoutes = routes(store);
+	let location = createLocation(req.url);
+	let store = finalCreateStore( combinedReducers );
+	let childRoutes = routes(store);
 
-  Router.run( childRoutes, location, (error, initialState, transition) => {
+	match({ routes: childRoutes, location }, (error, redirectLocation, renderProps) => {
 
-      // 如果找不到 match 的 route，也可噴錯，丟出去給外層處理
-      // return next('err msg: route not found');
+		if (redirectLocation) {
 
-      // 找不到 match 的 routing，就丟出去給外層處理
-      /*if(transition.isCancelled){
-        return next();
-      }*/
+			res.redirect(301, redirectLocation.pathname + redirectLocation.search);
 
-      var markup = ReactDOM.renderToString(
-        <Provider store={store}>
-            <Router {...initialState} />
-        </Provider>,
-      );
+		} else if (error) {
 
+			res.send(500, error.message);
 
-      let state = JSON.stringify(store.getState());
+		} else if (renderProps == null){
 
-      var str = index
-                .replace('${markup}', markup)
-                .replace('${state}', state);
+			// 找不到 match 的 routing，就丟出去給外層處理
+			// if(transition.isCancelled){
+			// 	return next();
+			// }
 
-      // console.log( '\n生成 markup:\n', str );
+			// 也可噴錯，丟出去給外層處理
+			// return next('err msg: route not found');
 
-      // 將組合好的 html 字串返還，request 處理至此完成
-      res.send(str);
-  });
+			// 目前是直接返還 404 訊息，就結束此輪請求
+			res.send(404, 'Not found');
 
+		} else {
 
+			var markup = ReactDOM.renderToString(
+				<Provider store={store}>
+					<RoutingContext {...renderProps}/>
+				</Provider>,
+			);
+
+			// console.log( '\n生成 markup:\n', markup );
+
+			let state = JSON.stringify(store.getState());
+
+			var str = index
+					  .replace('${markup}', markup)
+					  .replace('${state}', state);
+
+			// console.log( '\n生成 html:\n', str );
+
+			// 將組合好的 html 字串返還，request 處理至此完成
+			res.send(str);
+
+			// res.send(renderToString(<RoutingContext {...renderProps}/>))
+		}
+	})
 };
 
 module.exports = function(app){

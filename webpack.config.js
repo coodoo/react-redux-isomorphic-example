@@ -5,6 +5,7 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval-source-map',
+  // devtool: 'eval',
   entry: [
     './js/boot-client' // client app 的進入點
   ],

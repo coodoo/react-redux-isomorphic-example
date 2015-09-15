@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import Immutable from 'immutable';
-import { Provider } from 'react-redux';
-import * as reducers from './reducers';
-import promiseMiddleware from './utils/PromiseMiddleware';
-import TodoApp from './components/TodoApp';
-import ProductsContainer from './components/ProductsContainer';
-import ProductDetail from './components/ProductDetail';
-import {ProductState, ProductRecord, CartState, convertMapToImmutable} from './constants/Types';
 import {Router, Route} from 'react-router';
-import {history} from 'react-router/lib/BrowserHistory';
-import { devTools, persistState } from 'redux-devtools';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
+import { Provider } from 'react-redux';
+import configureStore from './utils/configureStore';
+import {ProductState, ProductRecord, CartState, convertMapToImmutable} from './constants/Types';
 
 // 是否開啟 redux_devtool 面板
 window.$REDUX_DEVTOOL = false;
@@ -20,7 +14,7 @@ window.$REDUX_DEVTOOL = false;
 window.$RESTORED = false;
 
 // 客戶端嚐試還原 state，如果有找到這個 elem 並且有內容，就代表為 isomorphic 版本
-let state = null;
+let state = undefined;
 if ( window.$REDUX_STATE ) {
 
 	// 解開 server 預先傳來的資料包，稍後會放入 store 成為 initState
@@ -43,31 +37,16 @@ if ( window.$REDUX_STATE ) {
 
 	window.$RESTORED = true;
 
-	// console.log( 'state restored: ', state.products.toJS(), state.carts.toJS() );
+	console.log( 'server-rendering state restored: ', state );
 }
 
-// 就是 composeStores(), 將所有 stores 合併起來成為一個 composition(state, action) 指令
-// 將來操作它就等於操作所有 reducers
-const composedReducers = combineReducers( reducers );
-
-// 掛上 reudx-devtools
-let cs;
-if ( window.$REDUX_DEVTOOL ) {
-	cs = compose( devTools(), createStore );
-}else {
-	cs = createStore;
-}
-
-const finalCreateStore = applyMiddleware( promiseMiddleware )( cs );
-
-// 重要：需視是否為 server rendering 而決定是否傳入 state 物件
-let store = state ? finalCreateStore( composedReducers, state ) : finalCreateStore( composedReducers );
+const history = createBrowserHistory();
+const store = configureStore( state );
 
 // 啟動 router，偷傳 store 進去方便它內部在每條 routing rule 啟動前先撈資料
 const routes = require( './routes/routing' )( store );
 
 ReactDOM.render(
-
 	<Provider store={store}>
 		<Router history={history} children={routes} />
 	</Provider>,

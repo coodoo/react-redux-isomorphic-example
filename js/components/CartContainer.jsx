@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import Cart from './Cart.jsx';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ShopActions from '../actions/ShopActions';
 
-@connect( state => {return state} )
-export default class CartContainer extends React.Component {
+class CartContainer extends Component {
 
 	constructor(props, context){
 		super(props, context);
@@ -34,3 +33,5 @@ export default class CartContainer extends React.Component {
 	}
 
 }
+
+export default connect( (state, ownProps) => (state) )(CartContainer);

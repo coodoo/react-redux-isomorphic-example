@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ShopActions from '../actions/ShopActions';
@@ -19,8 +19,9 @@ import fetchData from '../utils/FetchDataDecorator'
 
 } )
 
-@connect( state => {return {products: state.products}} )
-export default class extends React.Component {
+@connect( (state, ownProps) => ({ products: state.products }) )
+
+export default class ProductDetail extends Component {
 
 	constructor(props, context) {
 	    super(props, context);

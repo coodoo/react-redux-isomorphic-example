@@ -15,7 +15,7 @@ export default function routes(store) {
     // 目地：盡量讓這支 fn 可泛用
     // predicate 是條件式，用來判斷資料是否已存在，即不會重覆撈取；如果它返還 true 就不會繼續執行下去
     function fetchCommon( actionFn, predicate ){
-        return (state, transition, callback) => {
+        return (state, replaceState, callback) => {
 
             // debugger; // 看是否已撈過
             // console.log( '$fetched: ', store.getState().products.toJS() );
@@ -38,7 +38,7 @@ export default function routes(store) {
     // 除了共用 fetchCommon() 外，如需特別判斷邏輯，也可改用獨立的 fetch fn
     // 此時就可直接操作 action.readOne() 了，但一樣透過 state.params.id 取得參數
     function fetchOne(){
-        return (state, transition, callback) => {
+        return (state, replaceState, callback) => {
 
             // 先檢查是否已撈過該筆資料，沒有的話才回 server 取
             let existed = store.getState().products.productsById.get(state.params.id) != null;
@@ -75,7 +75,7 @@ export default function routes(store) {
       {
         path: "*",
         components: {main: NotFound, cart: null},
-        onEnter: (state, transition) => {
+        onEnter: (state, replaceState) => {
             console.log( 'Routing - 404 該上場了: ' );
         },
       },

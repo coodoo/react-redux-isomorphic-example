@@ -20,6 +20,17 @@ $ npm start
 
 Then visit `localhost:3000`.
 
+### Notes
+
+- __Remove__ `node_modules` and avoid strange issues (trust me it's worth it)
+
+- Sep 15, 2015 - Updated to use latest of everything
+	- `React@0.14.0-rc1`
+	- `Redux@3.0.0`
+	- `React-router@1.0.0-rc1`
+	- `Babel@5.8.24`
+	- `Webpack@1.12.1`
+
 ## The case for redux
 
 We love react and flux for that it provides a smooth workflow and much simpler mindset to develop applications.
@@ -37,11 +48,6 @@ In short, if you could only pick up one new skill this summer (2015), `redux` sh
 
 - React, Redux, universal/isomorphic, ES6/7, webpack, babel and _all those usual suspects!_
 
-- Uses latest versions of everything (as the time of writing, 2015/Aug)
-	- `React@0.14.0-beta3`
-	- `Redux@1.0.1`
-	- `React-router@1.0.0-beta3`
-	- `Babel@5.8.22`
 
 - Uses `Promise middleware` for redux to showcase async data fetching along with optimistic updating for each REST API calls
 

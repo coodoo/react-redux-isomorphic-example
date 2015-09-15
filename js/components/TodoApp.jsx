@@ -1,15 +1,10 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import * as ShopActions from '../actions/ShopActions';
-import CartContainer from './CartContainer';
-import ProductsContainer from './ProductsContainer';
+import React, { Component, PropTypes } from 'react';
+import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'; // devTools
 
 if ( 'undefined' !== typeof window ) {
 	require( '../../assets/css/main.css' );
 }
 
-// devTools
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 
 export default class TodoApp extends Component {
 
@@ -17,41 +12,42 @@ export default class TodoApp extends Component {
 		store: React.PropTypes.object.isRequired,
 	};
 
-  render() {
-	// console.log( 'TodoApp > props: ', this.props );
+	render() {
 
-	const { isTransitioning } = this.props;
+		// isTransitioning is gone in react-router 1.0.0-rc1, pending request to put it back
+		const { isTransitioning } = this.props || false ;
 
-	// toggle redux-devPanel
-	var tool;
-	if ( 'undefined' !== typeof window && window.$REDUX_DEVTOOL == true ) {
-		tool = <DebugPanel top right bottom>
-				<DevTools store={this.context.store} monitor={LogMonitor} />
-			   </DebugPanel>
+		// toggle redux-devPanel
+		var tool;
+		if ( 'undefined' !== typeof window && window.$REDUX_DEVTOOL == true ) {
+			tool = <DebugPanel top right bottom>
+					<DevTools store={this.context.store} monitor={LogMonitor} />
+					 </DebugPanel>
+		}
+
+		let nodes;
+
+		if ( isTransitioning ) {
+
+			nodes = (
+				<div>
+					{<div>LOADING...</div>}
+					{tool}
+				</div>
+			)
+
+		}else {
+
+			nodes = (
+				<div>
+					{this.props.children.main}
+					{this.props.children.cart}
+					{tool}
+				</div>
+			)
+		}
+
+		return nodes;
 	}
-
-	let nodes;
-
-	if ( isTransitioning ) {
-		nodes = (
-			<div>
-				{<div>LOADING...</div>}
-				{tool}
-			</div>
-		)
-
-	}else {
-
-		nodes = (
-			<div>
-				{this.props.main}
-				{this.props.cart}
-				{tool}
-			</div>
-		)
-	}
-
-	return nodes;
-  }
 
 }
