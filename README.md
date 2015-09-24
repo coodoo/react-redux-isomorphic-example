@@ -22,7 +22,7 @@ Then visit `localhost:3000`.
 
 ### Notes
 
-- __Remove__ `node_modules` and avoid strange issues (trust me it's worth it)
+- __Remove__ `node_modules` and reinstall everything to avoid various strange issues (trust me it's worth the effort)
 
 - Sep 15, 2015 - Updated to use latest of everything
 	- `React@0.14.0-rc1`
