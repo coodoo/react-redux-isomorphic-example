@@ -5,11 +5,11 @@ import combinedReducers from '../reducers';
 import { devTools, persistState } from 'redux-devtools';
 
 // 掛上 reudx-devtools
-let cs;
+let _createStore;
 if ( window.$REDUX_DEVTOOL ) {
-	cs = compose( devTools(), createStore );
+	_createStore = compose( devTools(), createStore );
 }else {
-	cs = createStore;
+	_createStore = createStore;
 }
 
 const logger = createLogger({
@@ -18,11 +18,11 @@ const logger = createLogger({
   // predicate: (getState, action) => action.type !== AUTH_REMOVE_TOKEN
 });
 
-// jx: 改為支援 devTools
+// 為支援 devTools 而改寫
 const createStoreWithMiddleware = applyMiddleware(
   promiseMiddleware,
   logger,
-)(cs);
+)(_createStore);
 
 export default function configureStore( initialState = undefined  ) {
 

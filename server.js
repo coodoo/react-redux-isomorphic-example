@@ -1,3 +1,18 @@
+
+process.stdout.write('\u001B[2J\u001B[0;0f');
+
+/*
+var transit = require('transit-immutable-js');
+			var Immutable = require('immutable');
+
+			var m = Immutable.Map({with: "Some", data: "In"});
+
+			var str = transit.toJSON(m);
+
+			console.log( 'str: ', str )
+
+*/
+
 import fs from 'fs';
 import express from 'express';
 import path from 'path';
@@ -12,21 +27,25 @@ app.use('/build', express.static(path.join(__dirname, 'build')))
 app.use('/assets', express.static(path.join(__dirname, 'assets')))
 
 if( $UNIVERSAL ){
+
     serverRenderer(app);
+
 }else{
+
     const index = fs.readFileSync('assets/index.html', {encoding: 'utf-8'});
     // 如果要關掉 server rendering 時，手法如下：
     // 手法就是同樣在 server 上模擬一個空白的字串返還，讓 client 端有東西可解開就好
     const str = index.replace('${markup}', '').replace('${state}', null);
     app.get('*', (req, res) => {
       // 將組合好的 html 字串返還，request 處理至此完成
-      res.send(str);
+      res.status(200).send(str);
     });
+
 }
 
 // 示範可以正確在 server 上處理 404 頁面
 app.get('*', function(req, res) {
-    res.send('Server.js > 404 - Page Not Found');
+    res.status(404).send('Server.js > 404 - Page Not Found');
 })
 
 // Catch server error，注意要四個參數
@@ -37,7 +56,7 @@ app.use((err, req, res, next) => {
 });
 
 process.on('uncaughtException', evt => {
-  console.log( 'uncaughtException 抓到了' );
+  console.log( 'uncaughtException 抓到了: ', evt );
 })
 
 app.listen(3000, function(){

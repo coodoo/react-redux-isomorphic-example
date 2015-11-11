@@ -1,6 +1,3 @@
-// export { default as products } from "./ProductReducer";
-// export { default as carts } from "./CartReducer";
-
 import { combineReducers } from 'redux';
 
 import products from "./ProductReducer";

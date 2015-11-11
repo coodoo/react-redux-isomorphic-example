@@ -4,7 +4,8 @@
   "description": "An isomorphic example built with react and redux using the latest v1.0.0-rc API, see readme for detailed instructions",
   "main": "dev.js",
   "scripts": {
-    "start": "npm run build& npm run server",
+    "start": "npm run build& nodemon server",
+    "start1": "npm run build& npm run server",
     "build": "webpack -d --progress --watch",
     "server": "babel-node --stage 0 server.js"
   },
@@ -38,7 +39,7 @@
     "react-constants": "^0.2.2",
     "react-dom": "^0.14.2",
     "react-redux": "^4.0.0",
-    "react-router": "1.0.0-rc1",
+    "react-router": "^1.0.0",
     "redux": "^3.0.4"
   },
   "devDependencies": {

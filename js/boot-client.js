@@ -14,7 +14,7 @@ window.$REDUX_DEVTOOL = false;
 window.$RESTORED = false;
 
 // 客戶端嚐試還原 state，如果有找到這個 elem 並且有內容，就代表為 isomorphic 版本
-let state = undefined;
+let state = null;
 if ( window.$REDUX_STATE ) {
 
 	// 解開 server 預先傳來的資料包，稍後會放入 store 成為 initState

@@ -40,8 +40,8 @@ export default class TodoApp extends Component {
 
 			nodes = (
 				<div>
-					{this.props.children.main}
-					{this.props.children.cart}
+					{this.props.main}
+					{this.props.cart}
 					{tool}
 				</div>
 			)
