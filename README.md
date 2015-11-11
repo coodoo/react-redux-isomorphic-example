@@ -20,16 +20,13 @@ $ npm start
 
 Then visit `localhost:3000`.
 
-### Notes
+### Upgrade Notes
 
-- __Remove__ `node_modules` and reinstall everything to avoid various strange issues (trust me it's worth the effort)
+- It is highly recommented to always __remove__ `node_modules` and reinstall everything to avoid any possible issues
 
-- Sep 15, 2015 - Updated to use latest of everything
-	- `React@0.14.0-rc1`
-	- `Redux@3.0.0`
-	- `React-router@1.0.0-rc1`
-	- `Babel@5.8.24`
-	- `Webpack@1.12.1`
+- Nov 11, 2015
+	- Migrated to `react-router v1`
+	- Migrated to 'react-transform-hmr'
 
 ## The case for redux
 
