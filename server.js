@@ -1,23 +1,13 @@
 
 process.stdout.write('\u001B[2J\u001B[0;0f');
 
-/*
-var transit = require('transit-immutable-js');
-			var Immutable = require('immutable');
+var fs = require('fs');
+var express = require('express');
+var path = require('path');
 
-			var m = Immutable.Map({with: "Some", data: "In"});
+var serverRenderer = require('./js/boot-server');
 
-			var str = transit.toJSON(m);
-
-			console.log( 'str: ', str )
-
-*/
-
-import fs from 'fs';
-import express from 'express';
-import path from 'path';
-
-import serverRenderer from './js/boot-server';
+// console.log( '環境: ', process.env.NODE_ENV )
 
 // 重要：切換是否要啟用 server-rendering
 const $UNIVERSAL = true;
@@ -25,6 +15,22 @@ const $UNIVERSAL = true;
 var app = express();
 app.use('/build', express.static(path.join(__dirname, 'build')))
 app.use('/assets', express.static(path.join(__dirname, 'assets')))
+
+//----------------------------
+// 啟用新版 webpack HMR 功能
+var webpack = require('webpack');
+var config = require('./webpack.config');
+var compiler = webpack(config);
+
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: false,
+  publicPath: config.output.publicPath
+}));
+
+app.use(require('webpack-hot-middleware')(compiler));
+//
+//----------------------------
+
 
 if( $UNIVERSAL ){
 
