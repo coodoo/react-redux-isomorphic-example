@@ -4,8 +4,7 @@
   "description": "An isomorphic example built with react, redux and react-router, see readme for detailed instructions",
   "main": "dev.js",
   "scripts": {
-    "start": "npm run build& nodemon server",
-    "start1": "npm run build& npm run server",
+    "start": "npm run build& npm run server",
     "build": "webpack -d --progress --watch",
     "server": "babel-node --stage 0 server.js"
   },
