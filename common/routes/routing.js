@@ -10,14 +10,14 @@ import * as ShopActions from '../actions/ShopActions';
 export default function routes( store ) {
 
 	// bind 一次之後可重覆用
-	const actions = bindActionCreators(ShopActions, store.dispatch);
+	let actions = bindActionCreators(ShopActions, store.dispatch);
+
+	// console.log( 'action 有貨: ', actions, ' >creator: ', bindActionCreators )
 
 	// 目地：盡量讓這支 fn 可泛用
 	// predicate 是條件式，用來判斷資料是否已存在，即不會重覆撈取；如果它返還 true 就不會繼續執行下去
 	function fetchCommon( actionFn, predicate ){
 		return (state, replaceState, callback) => {
-
-			// console.log( '\n\nonEnter 抓資料:\n' )
 
 			// debugger; // 看是否已撈過
 			// console.log( '$fetched: ', store.getState().products.toJS() );
@@ -32,14 +32,8 @@ export default function routes( store ) {
 			actionFn( state.params )
 
 			.then(
-
-				result => {
-					// console.log( '\n抓完資料: ', result )
-					callback()
-				},
-
+				result => callback(),
 				err => callback(err) );
-
 		}
 	}
 
@@ -57,9 +51,14 @@ export default function routes( store ) {
 			// 直接觸發 callback 讓 react-router transition 順利進行下去
 			if ('undefined' !== typeof window && window.$RESTORED == true ) callback();
 
+			return callback()
+
+			// foo = actions.readOne();
+
 			// 一律整包 state.params 送進去 ShopAction，那裏再 destructuring 取出要的欄位即可
 			// 注意多塞了 existed 屬性，避免重覆撈取已存在的資料
 			actions.readOne( {...state.params, existed} )
+
 			.then( result => callback(),
 				   err => callback(err) );
 
@@ -75,14 +74,14 @@ export default function routes( store ) {
 		  {
 			path: "/",
 			components: {main: ProductsContainer, cart: CartContainer},
-			// 示範較單純的 async data-fetching 手法
+			// 示範單純版的 async data-fetching 手法
 			onEnter: fetchCommon( actions.readAll, (reduxState) => { return reduxState.products.$fetched==true} ),
 		  },
 		  {
 			path: "/:id",
 			components: {main: ProductDetail, cart: CartContainer},
 			onEnter: ProductDetail.onEnter(store),  // 示範使用 @decorator 做 aysnc data-fetching
-			// onEnter: fetchOne(), // 示範較單純的 async data-fetching 手法
+			// onEnter: fetchOne(), // 單純版的 async data-fetching 手法
 		  },
 		  {
 			path: "*",

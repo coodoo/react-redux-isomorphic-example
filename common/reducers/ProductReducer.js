@@ -4,12 +4,11 @@ import Immutable from 'immutable';
 import {ProductState, ProductRecord, convertToRecordMap } from '../constants/Types';
 import {CartState} from '../constants/Types';
 import createReducer from '../utils/createReducer';
-import * as types from '../constants/ActionTypes';
+import types from '../constants/ActionTypes';
 
 function READ_ALL_PRODUCTS_REQUEST( state, action ){ return state; }
 function READ_ALL_PRODUCTS_ERROR( state, action ){ return state; }
 function READ_ALL_PRODUCTS_SUCCESS( state, action ){
-
 	return state.update( 'productsById', map => action.result )
 				.set('$fetched', true);	// 標示 productsById 已 fetched，將來從 detail 頁回 listing 頁就不會重撈
 

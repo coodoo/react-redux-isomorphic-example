@@ -1,4 +1,4 @@
-import constants from 'react-constants';
+import constants from 'flux-constants';
 
 // constants 插件會吐出 {ROUTE_CHANGE: "ROUTE_CHANGE"} 這樣的 pair string
 export default constants([

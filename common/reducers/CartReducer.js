@@ -3,7 +3,7 @@ import assign from 'object-assign';
 import Immutable from 'immutable';
 import {CartState} from '../constants/Types';
 import createReducer from '../utils/createReducer';
-import * as types from '../constants/ActionTypes';
+import types from '../constants/ActionTypes';
 
 function ADD_TO_CART_SUCCESS( state, action ){
 	var id = action.result.id;

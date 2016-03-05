@@ -1,7 +1,7 @@
 export default [
 	{
 		id: 'a1',
-		image: "assets/images/ipad-mini.png",
+		image: "/assets/images/ipad-mini.png",
 		inventory: 2,
 		quantity: 0,
 		price: 500.01,
@@ -9,7 +9,7 @@ export default [
 	},
 	{
 		id: 'a2',
-		image: "assets/images/t-shirt.png",
+		image: "/assets/images/t-shirt.png",
 		inventory: 10,
 		quantity: 0,
 		price: 10.99,
@@ -17,7 +17,7 @@ export default [
 	},
 	{
 		id: 'a3',
-		image: "assets/images/sucker.png",
+		image: "/assets/images/sucker.png",
 		inventory: 5,
 		quantity: 0,
 		price: 19.99,

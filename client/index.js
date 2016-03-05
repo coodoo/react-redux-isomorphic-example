@@ -1,11 +1,14 @@
+import 'babel-polyfill';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import {Router, Route} from 'react-router';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
+import { browserHistory } from 'react-router'
 import { Provider } from 'react-redux';
-import configureStore from './utils/configureStore';
-import {ProductState, ProductRecord, CartState, convertMapToImmutable} from './constants/Types';
+import configureStore from '../common/utils/configureStore';
+import {ProductState, ProductRecord, CartState, convertMapToImmutable} from '../common/constants/Types';
+
+import createRoutes from '../common/routes/routing';
 
 // 是否開啟 redux_devtool 面板
 window.$REDUX_DEVTOOL = false;
@@ -40,15 +43,19 @@ if ( window.$REDUX_STATE ) {
 	console.log( 'server-rendering state restored: ', state );
 }
 
-const history = createBrowserHistory();
+// const history = createBrowserHistory();
 const store = configureStore( state );
+// console.log( 'store: ', store )
 
 // 啟動 router，偷傳 store 進去方便它內部在每條 routing rule 啟動前先撈資料
-const routes = require( './routes/routing' )( store );
+// const r = require( '../common/routes/routing' )
+const routes = createRoutes( store );
+// console.log( 'routes=:', routes )
 
+// 注意 <Provider> 是 react-redux 提供的元件，不屬於 react-router
 ReactDOM.render(
 	<Provider store={store}>
-		<Router history={history} children={routes} />
+		<Router history={browserHistory} routes={routes} />
 	</Provider>,
 
 	document.querySelector( '.container' )

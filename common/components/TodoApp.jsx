@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'; // devTools
+// import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'; // devTools
 
 if ( 'undefined' !== typeof window ) {
-	require( '../../assets/css/main.css' );
+	require( '../../client/assets/css/main.css' );
 }
-
 
 export default class TodoApp extends Component {
 
@@ -14,16 +13,17 @@ export default class TodoApp extends Component {
 
 	render() {
 
+		// console.log( 'this.props= ', this.props )
 		// isTransitioning is gone in react-router 1.0.0-rc1, pending request to put it back
 		const { isTransitioning } = this.props || false ;
 
 		// toggle redux-devPanel
 		var tool;
-		if ( 'undefined' !== typeof window && window.$REDUX_DEVTOOL == true ) {
+		/*if ( 'undefined' !== typeof window && window.$REDUX_DEVTOOL == true ) {
 			tool = <DebugPanel top right bottom>
 					<DevTools store={this.context.store} monitor={LogMonitor} />
 					 </DebugPanel>
-		}
+		}*/
 
 		let nodes;
 

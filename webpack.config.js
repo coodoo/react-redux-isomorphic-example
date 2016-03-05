@@ -5,12 +5,12 @@ var webpack = require('webpack');
 
 module.exports = {
 
-  devtool: 'eval-source-map',
+  devtool: '#eval-source-map',
   // devtool: 'eval',
 
   entry: [
 	'webpack-hot-middleware/client',
-	'./js/boot-client' // client app 的進入點
+	'./client/index.js' // client app 的進入點
   ],
 
   //
@@ -22,6 +22,7 @@ module.exports = {
 
   //
   plugins: [
+	new webpack.optimize.OccurenceOrderPlugin(),
 	new webpack.HotModuleReplacementPlugin(),
 	new webpack.NoErrorsPlugin()
   ],
@@ -43,23 +44,20 @@ module.exports = {
 		  exclude: /node_modules/,
 		  include: __dirname,
 		  query: {
-			  'stage': 0,
-			  'plugins': ['react-transform'],
-			  'extra': {
-				'react-transform': {
-				  'transforms': [{
-					'transform': 'react-transform-hmr',
-					'imports': ['react'],
-					'locals': ['module']
-				  }, {
-					'transform': 'react-transform-catch-errors',
-					'imports': ['react', 'redbox-react']
-				  }]
-				}
-			  }
-			}
+		    presets: [ 'react-hmre', "es2015", "stage-0", "react" ],
+		    plugins: [ "transform-decorators-legacy" ],
+		  }
+		  /*query: {
+		    "presets": [ "es2015", "stage-0", "react"],
+		    "plugins": [ "transform-decorators-legacy", 'react-transform'],
+			// 這裏就是直接貼上原本寫在 .babelrc 內的設定字串
+		    "env": {
+		  	  "development": {
+		  		"presets": ["react-hmre"]
+		  	  }
+		  	}
+		  }*/
 		},
-
 		{
 		  test: /\.css$/,
 		  loader: "style!css",
