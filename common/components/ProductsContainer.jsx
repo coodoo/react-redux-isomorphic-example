@@ -9,6 +9,22 @@ import * as ShopActions from '../actions/ShopActions';
 
 class ProductsContainer extends Component {
 
+	static loadProps( params, callback) {
+
+		// double destructruing
+		// 先解出 customProps, 再解出 store
+		let {customProps:{store}} = params;
+
+		// 先檢查是否已撈過該筆資料，沒有的話才回 server 取
+		if( store.getState().products.$fetched == true ) return callback();
+
+		// 然後接上 redux 系統的 action/reducer 操作，撈回資料後會觸發 view 更新
+		// 最棒的是這招在 server rendering 時也同樣有效，它會等到 data fetching 完成才繪出並返還頁面
+		store.dispatch( ShopActions.readAll( params ) )
+			 .then( result => callback(),
+			 		err => callback(err) );
+	}
+
 	// 重要，props 包含 dispatch fn 與所有 reducers 物件，是由 @connect 傳入的
 	// dispatch: function
 	// products: Record

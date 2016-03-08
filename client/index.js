@@ -1,14 +1,15 @@
-import 'babel-polyfill';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
-import {Router, Route} from 'react-router';
-import { browserHistory } from 'react-router'
+import {Router, Route, RouterContext, browserHistory} from 'react-router';
 import { Provider } from 'react-redux';
 import configureStore from '../common/utils/configureStore';
 import {ProductState, ProductRecord, CartState, convertMapToImmutable} from '../common/constants/Types';
 
-import createRoutes from '../common/routes/routing';
+// import AsyncProps from 'async-props'
+import AsyncProps from '../common/utils/AsyncProps'
+
+import routes from '../common/routes/routing';
 
 // 是否開啟 redux_devtool 面板
 window.$REDUX_DEVTOOL = false;
@@ -35,27 +36,20 @@ if ( window.$REDUX_STATE ) {
 		cartsById: Immutable.List.of( ...state.carts.cartsById ),
 	} );
 
-	// 用完就刪掉
-	delete window.$REDUX_STATE;
-
 	window.$RESTORED = true;
 
-	console.log( 'server-rendering state restored: ', state );
+	console.log( 'state from server-rendering restored: ', state );
 }
 
-// const history = createBrowserHistory();
-const store = configureStore( state );
-// console.log( 'store: ', store )
-
-// 啟動 router，偷傳 store 進去方便它內部在每條 routing rule 啟動前先撈資料
-// const r = require( '../common/routes/routing' )
-const routes = createRoutes( store );
-// console.log( 'routes=:', routes )
+const store = state ? configureStore( state ) : configureStore();
 
 // 注意 <Provider> 是 react-redux 提供的元件，不屬於 react-router
+// 注意 <AsyncProps> 裏面傳了 redux store 進去，將來可在 loadProps() 取得 dispatch() 進而操作 actions
+// 注意 AsyncProps 是我 patch 過的版本
 ReactDOM.render(
 	<Provider store={store}>
-		<Router history={browserHistory} routes={routes} />
+		<Router history={browserHistory} routes={routes}
+				render={(props) => <AsyncProps {...props} customProps={{store}} /> } />
 	</Provider>,
 
 	document.querySelector( '.container' )

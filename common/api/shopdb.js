@@ -55,7 +55,7 @@ export default {
 	checkoutProducts: function( cartsByid, timeout = TIMEOUT ) {
 		return new Promise( ( resolve, reject ) => {
 			setTimeout( function() {
-			console.log( 'shopdb > 虛擬購買完成: ', JSON.parse( cartsByid ) );
+			console.log( 'shopdb > purchase completed: ', JSON.parse( cartsByid ) );
 			resolve( JSON.stringify( {msg:'checkout completed'} ) );
 		  }, timeout );
 
