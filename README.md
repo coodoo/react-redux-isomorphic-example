@@ -24,9 +24,9 @@ Then visit `localhost:3000`.
 
 - It is highly recommented to always __remove__ `node_modules` and reinstall everything to avoid any possible issues
 
-- Nov 11, 2015
-	- Migrated to `react-router v1`
-	- Migrated to 'react-transform-hmr'
+- Mar. 10, 2016
+	- upgrade everything to latest, including  react v15-rc1
+    - simplify the universal approach a bit
 
 ## The case for redux
 
