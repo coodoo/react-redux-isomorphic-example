@@ -10,19 +10,11 @@ function READ_ALL_PRODUCTS_REQUEST( state, action ){ return state; }
 function READ_ALL_PRODUCTS_ERROR( state, action ){ return state; }
 function READ_ALL_PRODUCTS_SUCCESS( state, action ){
 	return state.update( 'productsById', map => action.result )
-				.set('$fetched', true);	// 標示 productsById 已 fetched，將來從 detail 頁回 listing 頁就不會重撈
-
 }
 
 function READ_ONE_PRODUCT_REQUEST( state, action ){ return state; }
 function READ_ONE_PRODUCT_ERROR( state, action ){ console.error( action ); return state; }
 function READ_ONE_PRODUCT_SUCCESS( state, action ){
-
-	// 點選單筆資料時，會先判斷該資料是否已存在於 productsById map 內
-	// 如果已存在，就不會再跟 server 撈資料，僅會傳來 id 供更新 currentProducId
-	state = state.update('currentProductId', id => {
-		return action.result.id;
-	})
 
 	// 但如果真的有回 server 撈資料，就要繼續跑這段
 	if( !state.productsById.get(action.result.id) ){

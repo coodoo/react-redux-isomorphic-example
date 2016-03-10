@@ -7,23 +7,45 @@ import ProductsList from './ProductsList.jsx';
 import ProductItemContainer from './ProductItemContainer.jsx';
 import * as ShopActions from '../actions/ShopActions';
 
+/*
+@resolve("fuckme", function( params, store ) {
+
+
+	let { dispatch } = params;
+
+	console.log( '拿到 dispatch: ', dispatch )
+	debugger;
+
+	// return Promise.resolve('dddd')
+
+	// double destructruing
+	// 先解出 customProps, 再解出 store
+	// let {customProps:{store}} = params;
+	// let store = data;
+
+	// 先檢查是否已撈過該筆資料，沒有的話才回 server 取
+	// if( store.getState().products.$fetched == true ) return callback();
+
+	// 然後接上 redux 系統的 action/reducer 操作，撈回資料後會觸發 view 更新
+	// 最棒的是這招在 server rendering 時也同樣有效，它會等到 data fetching 完成才繪出並返還頁面
+	dispatch( ShopActions.readAll() )
+									.then( result => callback(),
+										   err => callback(err) );
+
+  // const { user } = params;
+  // const url = `https://api.github.com/users/${user}`;
+  // return axios.get(url)
+		// 	  .then(({ data }) => data);
+
+
+})*/
+
+
 class ProductsContainer extends Component {
 
-	static loadProps( params, callback) {
-
-		// double destructruing
-		// 先解出 customProps, 再解出 store
-		let {customProps:{store}} = params;
-
-		// 先檢查是否已撈過該筆資料，沒有的話才回 server 取
-		if( store.getState().products.$fetched == true ) return callback();
-
-		// 然後接上 redux 系統的 action/reducer 操作，撈回資料後會觸發 view 更新
-		// 最棒的是這招在 server rendering 時也同樣有效，它會等到 data fetching 完成才繪出並返還頁面
-		store.dispatch( ShopActions.readAll( params ) )
-			 .then( result => callback(),
-			 		err => callback(err) );
-	}
+	static needs = [
+		ShopActions.readAll
+	];
 
 	// 重要，props 包含 dispatch fn 與所有 reducers 物件，是由 @connect 傳入的
 	// dispatch: function
@@ -34,9 +56,17 @@ class ProductsContainer extends Component {
 		this.actions = bindActionCreators(ShopActions, props.dispatch);
 	}
 
+	componentWillMount() {
+		let { params, dispatch } = this.props;
+		ProductsContainer.needs.map( need => dispatch(need(params)) )
+	}
+
 	render() {
 
 	  let products = this.props.products;
+
+	  // if( !products ) debugger;
+
 	  // 重要：將 Immutable.Map 轉成 Sequence (類似 [ ReactElement, ReactElement, ReactElement])
 	  var nodes = products.productsById.valueSeq().map( product => {
 		return <ProductItemContainer

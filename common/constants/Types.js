@@ -1,13 +1,13 @@
 
 import Immutable from 'immutable';
 
+// 定義　redux state 內 ProductState 的 shape
 export const ProductState = Immutable.Record({
 	productsById: Immutable.Map(),
-	currentProductId: undefined,
 	total: '0',
-	$fetched: false,
 })
 
+// 定義　Product 的 object shape
 export const ProductRecord = Immutable.Record({
 	id: null,
 	image: "",
@@ -17,6 +17,7 @@ export const ProductRecord = Immutable.Record({
 	title: ""
 })
 
+// 定義　redux state 內 CartState 的 shape
 export const CartState = Immutable.Record({
 	cartsById: Immutable.List()
 })

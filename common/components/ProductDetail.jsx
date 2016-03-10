@@ -2,12 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ShopActions from '../actions/ShopActions';
-import {Link} from 'react-router';
-import fetchData from '../utils/FetchDataDecorator'
+import { Link } from 'react-router';
 
 export default class ProductDetail extends Component {
 
-	// <AsyncProps> 專用的指令
+	static needs = [
+		ShopActions.readOne
+	];
+
+	/*// <AsyncProps> 專用的指令
 	static loadProps( params, callback) {
 
 		// console.log( '\n\n**loadProps 跑: ', params )
@@ -25,21 +28,24 @@ export default class ProductDetail extends Component {
 		// 重點在 server rendering 時會等到 data fetching 完成才繪出並返還頁面
 		store.dispatch( ShopActions.readOne( {...params, existed} ) )
 			 .then( result => callback(), err => callback(err) );
-	}
+	}*/
 
 	constructor(props, context) {
-	    super(props, context);
-	    this.actions = bindActionCreators(ShopActions, props.dispatch);
-	    // console.log( 'detail constructor 跑了 > actions: ', this.actions );
+	    super( props, context );
+	    this.actions = bindActionCreators( ShopActions, props.dispatch );
 	}
 
 	render() {
 
-		var p = this.props.products;
-		var product = p.productsById.get( p.currentProductId );
+		const { productsById } = this.props.products;
+		const { id:currentProductId } = this.props.params;	// 一律由 router params 內直接取 id
+		const product = productsById.get( currentProductId );
 
 		if(!product){
-			// console.log( 'productDetail > 沒物件喔: ' );
+			// debugger;
+			let { params, dispatch } = this.props;
+			ProductDetail.needs.map( need => dispatch(need(params)) )
+
 			return <div>Product Not Found</div>
 		}
 

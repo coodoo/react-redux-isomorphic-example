@@ -48,7 +48,6 @@
     "react-redux": "^4.0.0",
     "react-router": "^2.0.0",
     "redux": "^3.0.4",
-    "redux-async-connect": "^1.0.0-rc4",
     "redux-promise": "^0.5.1"
   },
   "devDependencies": {
