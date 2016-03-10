@@ -6,9 +6,6 @@ var webpack = require('webpack');
 module.exports = {
 
   devtool: '#inline-source-map',
-  // devtool: '#cheap-module-eval-source-map',
-  // devtool: '#eval-source-map',
-  // devtool: '#eval',
 
   entry: [
 	'webpack-hot-middleware/client',
