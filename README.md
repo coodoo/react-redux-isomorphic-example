@@ -36,7 +36,7 @@ On top of that, redux makes things like __10x__ easier by transforming `flux sto
 
 Under the hood, redux is heavily based on various `functional programming` ideas to make those nice things happen, but don't let the functional aspect of redux scares you off, __`as a lib user, you don't really need to know about those inner workings to get started`__.
 
-That being said, it's quite an enjoyable and amazing experience to read through the whole codebase line by line and fully comprehend how things was designed to work in a very different manner, it's truly an eye opener.
+That being said, it's quite an enjoyable and amazing experience to read through the whole codebase line by line and fully comprehend how things were designed to work in a very different manner, it's truly an eye opener.
 
 In short, if you could only pick up one new skill this summer (2015), `redux` should be on top of your list (and a bit of functional programming knowledge won't hurt too :)
 
@@ -115,4 +115,4 @@ Pro hint, it can be toggled off by setting `window.$REDUX_DEVTOOL = false;` in `
 
 ## Special thanks
 
-Thanks [@gaearon](https://github.com/gaearon) for code review and pointing out misc. issues. [Lee Byron](https://github.com/leebyron) for brining `immutable.js` to the world, it makes everything easier, you guys rock!
+Thanks [@gaearon](https://github.com/gaearon) for code review and pointing out misc. issues. [Lee Byron](https://github.com/leebyron) for bringing `immutable.js` to the world, it makes everything easier, you guys rock!
