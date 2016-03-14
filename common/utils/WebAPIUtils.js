@@ -26,7 +26,10 @@ export default {
 
     addToCart: function(product){
         // console.log( '\n\tWebAPIUtil::addToCart run' );
-        return shopdb.addToCart(product.id)
+
+        // product is a Immutable.Record, need to serialize it before sending back to server
+        return shopdb.addToCart( product.toJSON() )
+        			 // when we get the result back need to marshall it into Immutable.Record again
                      .then( result => new ProductRecord(JSON.parse(result)) );
     },
 

@@ -14,7 +14,8 @@ export const ProductRecord = Immutable.Record({
 	inventory: 0,
 	quantity: 0,
 	price: 0,
-	title: ""
+	title: "",
+	tid: null, // transaction id for optimistic update
 })
 
 // 定義　redux state 內 CartState 的 shape

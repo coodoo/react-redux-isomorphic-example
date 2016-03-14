@@ -27,9 +27,14 @@ export function readOne( {id} ) {
 }
 
 export function addToCart(product) {
+
+	// optimistic update: add transacation_id for updating the object after it's returned from server
+	product = product.set( 'tid', 't_' + Math.random()*100 );
+
 	return {
 		types: [ types.ADD_TO_CART_REQUEST, types.ADD_TO_CART_SUCCESS, types.ADD_TO_CART_ERROR ],
-		promise: WebAPIUtils.addToCart(product)
+		promise: WebAPIUtils.addToCart(product),
+		result: product,
 	};
 }
 

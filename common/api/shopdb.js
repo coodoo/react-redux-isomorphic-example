@@ -33,17 +33,23 @@ export default {
 	},
 
 	// @todo: server 程式應該要檢查該貨品是否還有存貨，才允許購買
-	addToCart: function( pid, timeout = TIMEOUT ) {
+	addToCart: function( product, timeout = TIMEOUT ) {
 		return new Promise( ( resolve, reject ) => {
 			setTimeout( function() {
-				// console.log( 'products: ', products, ' >product: ', pid );
+				// console.log( 'products: ', products, ' >product: ', id );
 
-				let item = products.find( item => item.id == pid )
+				let { id, tid } = product;
 
-				if ( !item ) reject( 'item not found: ', pid );
+				let item = products.find( item => item.id == id )
+
+				if ( !item ) reject( 'item not found: ', id );
+
+				// added for optimistic update, sending tid back to client so it can update itself there
+				item.tid = tid;
 
 				item.inventory--;
 				item.quantity++;
+
 				resolve( JSON.stringify( item ) );
 
 			}, timeout );
