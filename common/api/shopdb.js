@@ -1,17 +1,17 @@
 /*
-這支模擬 server REST API
-為了擬真，它接收與返還的格式都是 JSON
+Simulate server's REST API
+everything goes in and out of it should be serialized in JSON format, so data could be transmitted across the wire
 */
 
 import products from './products.js';
 
-const TIMEOUT = 100;	// 模擬網路連線所需時間
+const TIMEOUT = 100;	// simluate network delay
 
 export default {
 
 	getProducts: function( timeout = TIMEOUT ) {
 		return new Promise( ( resolve, reject ) => {
-			// 模擬 REST API 返還一個 JSON 字串
+			// REST API always return JSON string
 			setTimeout( () => resolve( JSON.stringify( products ) ), timeout );
 		} )
 	},
@@ -25,14 +25,13 @@ export default {
 					}
 				}
 
-				// 如果走到這一行，代表前面找不到需要的商品，自然就拋錯了
+				// product not found, throw an exception
 				reject( 'Product not found: ' + id );
 			}, timeout );
 
 		} )
 	},
 
-	// @todo: server 程式應該要檢查該貨品是否還有存貨，才允許購買
 	addToCart: function( product, timeout = TIMEOUT ) {
 		return new Promise( ( resolve, reject ) => {
 			setTimeout( function() {

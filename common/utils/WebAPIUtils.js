@@ -1,8 +1,7 @@
 import shopdb from '../api/shopdb';
 import {List, ProductRecord, convertToRecordMap } from '../constants/Types';
 
-// WebAPIUitl 的角色是操作 remote REST API
-// 並負責轉換取回的物件為正確的格式
+// WebAPIUitl is responsible to interacting with remote REST APIs
 export default {
 
     // 從 REST API 取回一包 JSON string，立即 parse 後再轉回為 Immutable.Record 物件

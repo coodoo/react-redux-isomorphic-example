@@ -1,6 +1,7 @@
 import constants from 'flux-constants';
 
-// constants 插件會吐出 {ROUTE_CHANGE: "ROUTE_CHANGE"} 這樣的 pair string
+// constants plugin will return object in this format: { ROUTE_CHANGE: "ROUTE_CHANGE" }
+// so I don't have to type out duped strings
 export default constants([
 
     "ADD_TO_CART_REQUEST",

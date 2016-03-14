@@ -26,6 +26,7 @@ function READ_ONE_PRODUCT_SUCCESS( state, action ){
 	return state;
 }
 
+// checkout CartReducer.js#ADD_TO_CART_REQUEST() for example on optimistic update example
 // REQUEST 事件時做 optimistic update 的下手處，這裏先改變資料狀態，觸發 view 重繪
 // 通常是將物件加上 tid (transaction_id)
 // 等 SUCCESS 事件時，再依 server 返還的正式 uuid 來更新物件內容
@@ -43,7 +44,7 @@ function ADD_TO_CART_SUCCESS( state, action ){
 		})
 	})
 
-	// 計算新增一筆物件後的總金額
+	// calculate new total after adding new item
 	return state.update('total', num => {
 		return state.productsById.reduce( (acc, item) => {
 			return acc + (item.quantity * item.price)
@@ -52,7 +53,6 @@ function ADD_TO_CART_SUCCESS( state, action ){
 }
 
 function CART_CHECKOUT_SUCCESS( state, action ){
-  	// console.log( '結帳完成' );
   	return state
 		  	.update('productsById', list => {
 		 		 return list.map( item => item.set('quantity', 0) )
