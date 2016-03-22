@@ -18,7 +18,7 @@ export default class ProductDetail extends Component {
 
 	componentDidMount(){
 		// check if product already existed to avoid unnecessary fetching
-		if( !this.props.product ){
+		if( !this.props.products ){
 			fetchNeeds( ProductDetail.needs, this.props )
 			return <div>Loading...</div>
 		}

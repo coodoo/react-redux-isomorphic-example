@@ -42,8 +42,8 @@
     "history": "^2.0.1",
     "immutable": "^3.7.5",
     "object-assign": "^4.0.1",
-    "react": "^15.0.0-rc.1",
-    "react-dom": "^15.0.0-rc.1",
+    "react": "^15.0.0-rc.2",
+    "react-dom": "^15.0.0-rc.2",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.0",
     "redux": "^3.0.4"
