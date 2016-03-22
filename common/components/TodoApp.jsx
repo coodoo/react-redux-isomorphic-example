@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-// import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'; // devTools
+import DevTools from './DevTools';
 
 if ( 'undefined' !== typeof window ) {
 	require( '../../client/assets/css/main.css' );
@@ -13,13 +13,7 @@ export default class TodoApp extends Component {
 
 	render() {
 
-		// toggle redux-devPanel
-		let tool;
-		// if ( 'undefined' !== typeof window && window.$REDUX_DEVTOOL == true ) {
-		// 	tool = <DebugPanel top right bottom>
-		// 			<DevTools store={this.context.store} monitor={LogMonitor} />
-		// 			 </DebugPanel>
-		// }
+		let tool = ( 'undefined' !== typeof window && true == window.$REDUX_DEVTOOL ) ? <DevTools /> : null;
 
 		let nodes = (
 			<div>

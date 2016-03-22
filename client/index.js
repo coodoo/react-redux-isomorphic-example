@@ -7,9 +7,6 @@ import configureStore from '../common/utils/configureStore';
 import { ProductState, ProductRecord, CartState, convertMapToImmutable } from '../common/constants/Types';
 import routes from '../common/routes/routing';
 
-// 是否開啟 redux_devtool 面板
-window.$REDUX_DEVTOOL = false;
-
 let state = null;
 if ( window.$REDUX_STATE ) {
 
