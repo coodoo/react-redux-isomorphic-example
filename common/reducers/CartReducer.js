@@ -1,5 +1,3 @@
-
-import assign from 'object-assign';
 import Immutable from 'immutable';
 import {CartState} from '../constants/Types';
 import createReducer from '../utils/createReducer';

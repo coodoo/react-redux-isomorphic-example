@@ -1,5 +1,3 @@
-
-import assign from 'object-assign';
 import Immutable from 'immutable';
 import {ProductState, ProductRecord, convertToRecordMap } from '../constants/Types';
 import {CartState} from '../constants/Types';
