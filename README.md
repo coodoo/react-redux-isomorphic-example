@@ -27,7 +27,7 @@ Then visit `localhost:3000`.
 - Mar. 22, 2016
 	- upgrade everything to latest, including  react v15-rc2
     - simplified the universal approach a bit
-    - re-enabled `redux-devtools`, could toggle it on/off in [here](https://github.com/coodoo/react-redux-isomorphic-example/blob/master/common/utils/configureStore.js#L8), be advised if you toggle `redux-devtools` on it will break universal rendinerg (you will see warnings in console saying react failed to reuse markup generated on server...etc), but `redux-devtools` was meant for use only in development anyway so just remember to turn it off before deploy.<wink>
+    - re-enabled `redux-devtools`, could toggle it on/off [here](https://github.com/coodoo/react-redux-isomorphic-example/blob/master/common/utils/configureStore.js#L8), be advised if you toggle `redux-devtools` on it will break universal rendering (you will see warnings in browser console saying react failed to reuse markup generated on server...etc), but `redux-devtools` was meant for use only in development anyway so just remember to turn it off before deploy.<wink />
 
 ## The case for redux
 
