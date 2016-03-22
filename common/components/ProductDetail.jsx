@@ -16,18 +16,20 @@ export default class ProductDetail extends Component {
 	    this.actions = bindActionCreators( ShopActions, props.dispatch );
 	}
 
+	componentDidMount(){
+		// check if product already existed to avoid unnecessary fetching
+		if( !this.props.product ){
+			fetchNeeds( ProductDetail.needs, this.props )
+			return <div>Loading...</div>
+		}
+	}
+
 	render() {
 
 		const { productsById } = this.props.products;
-		const { id:currentProductId } = this.props.params;	// 一律由 router params 內直接取 id
+		const { id:currentProductId } = this.props.params;	// provided by router params
 		const product = productsById.get( currentProductId );
 
-		if(!product){
-			// debugger;
-			fetchNeeds( this.props, ProductDetail.needs )
-
-			return <div>Product Not Found</div>
-		}
 
 		var styles = {
 			backgroundColor: '#FFDC00'
@@ -53,6 +55,6 @@ export default class ProductDetail extends Component {
 	}
 }
 
-// 在 decorator 還沒正規化前，暫時不用
+// refer from using decorator before it became a standarized
 // @connect( (state, ownProps) => { products: state.products } )
 export default connect( (state, ownProps) => ({ products: state.products }) )(ProductDetail)

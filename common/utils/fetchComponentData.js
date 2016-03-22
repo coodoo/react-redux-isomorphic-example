@@ -1,3 +1,4 @@
+// for use on server to guarantee data was fetched before rendering pages for user
 export default function fetchComponentData(dispatch, components, params) {
 
   const needs = components.reduce( (prev, current) => {
@@ -13,8 +14,9 @@ export default function fetchComponentData(dispatch, components, params) {
   return Promise.all(promises);
 }
 
-// 個別元件內部抓取所需資料
-export function fetchNeeds( props, needs ){
+// for client side use, let each component trigger it's fetching data logics
+// might as well to add in dupe check to avoid fetching when data is already there
+export function fetchNeeds( needs, props ){
 	const { params, dispatch } = props;
 	needs.map( need => dispatch(need(params)) )
 }

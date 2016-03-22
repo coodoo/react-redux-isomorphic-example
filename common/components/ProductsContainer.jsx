@@ -14,7 +14,7 @@ class ProductsContainer extends Component {
 		ShopActions.readAll
 	];
 
-	// 重要，props 包含 dispatch fn 與所有 reducers 物件，是由 @connect 傳入的
+	// props contains dispatch fn and all reducers, passed in by @connect
 	// dispatch: function
 	// products: Record
 	// carts: Record
@@ -23,8 +23,8 @@ class ProductsContainer extends Component {
 		this.actions = bindActionCreators(ShopActions, props.dispatch);
 	}
 
-	componentWillMount() {
-		fetchNeeds( this.props, ProductsContainer.needs )
+	componentDidMount() {
+		fetchNeeds( ProductsContainer.needs, this.props )
 	}
 
 	render() {
@@ -33,7 +33,7 @@ class ProductsContainer extends Component {
 
 	  // if( !products ) debugger;
 
-	  // 重要：將 Immutable.Map 轉成 Sequence (類似 [ ReactElement, ReactElement, ReactElement])
+	  // convert Immutable.Map to Sequence, e.g. [ReactElement, ReactElement, ReactElement]
 	  var nodes = products.productsById.valueSeq().map( product => {
 		return <ProductItemContainer
 				  key={product.id}
@@ -42,7 +42,7 @@ class ProductsContainer extends Component {
 	  });
 
 	  return (
-		<ProductsList title="Flux Shop Demo (Redux)" key="productList">
+		<ProductsList title="Universal Redux Demo" key="productList">
 		  {nodes}
 		</ProductsList>
 	  );

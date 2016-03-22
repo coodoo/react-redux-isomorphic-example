@@ -11,10 +11,8 @@ class CartContainer extends Component {
 		this.actions = bindActionCreators(ShopActions, props.dispatch);
 	}
 
-	//
 	onCheckoutClicked() {
 
-		// 購物車內沒東西就不處理
 		if ( this.props.carts.cartsById.size == 0 ) {
 			return;
 		}

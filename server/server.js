@@ -24,7 +24,7 @@ var app = express();
 // app.use('/build', express.static(path.join(__dirname, '../build')))
 app.use('/assets', express.static(path.join(__dirname, '../client/assets')))
 
-// 啟用新版 webpack HMR 功能
+// initialize webpack HMR
 var webpack = require('webpack')
 var webpackDevMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
@@ -38,6 +38,7 @@ app.use( ( req, res, next ) => {
 
 	const store = finalCreateStore(combinedReducers);
 
+	// react-router
 	match( {routes, location: req.url}, ( error, redirectLocation, renderProps ) => {
 
 		if ( error )
@@ -54,7 +55,12 @@ app.use( ( req, res, next ) => {
 		// console.log( '\nserver > renderProps: \n', require('util').inspect( renderProps, false, 1, true) )
 		// console.log( '\nserver > renderProps: \n', require('util').inspect( renderProps.components, false, 3, true) )
 
-		// renderProps: 所有原始資料都會傳來，例如 routes, router, history, components...
+		// this is where universal rendering happens,
+		// fetchComponentData() will trigger actions listed in static "needs" props in each container component
+		// and wait for all of them to complete before continuing rendering the page,
+		// hence ensuring all data needed was fetched before proceeding
+		//
+		// renderProps: contains all necessary data, e.g: routes, router, history, components...
 		fetchComponentData( store.dispatch, renderProps.components, renderProps.params)
 
 		.then( () => {
