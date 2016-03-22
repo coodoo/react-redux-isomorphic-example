@@ -1,5 +1,5 @@
-var React = require( 'react' );
-var ProductItem = require( './ProductItem.jsx' );
+import React from 'react'
+import ProductItem from './ProductItem.jsx'
 
 export default React.createClass( {
 	render: function() {

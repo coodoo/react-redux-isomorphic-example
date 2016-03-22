@@ -14,6 +14,7 @@ class ProductsContainer extends Component {
 		ShopActions.readAll
 	];
 
+
 	// props contains dispatch fn and all reducers, passed in by @connect
 	// dispatch: function
 	// products: Record
@@ -31,14 +32,13 @@ class ProductsContainer extends Component {
 
 	  let products = this.props.products;
 
-	  // if( !products ) debugger;
-
 	  // convert Immutable.Map to Sequence, e.g. [ReactElement, ReactElement, ReactElement]
 	  var nodes = products.productsById.valueSeq().map( product => {
+
 		return <ProductItemContainer
 				  key={product.id}
 				  product={product}
-				  onAddToCart={this.actions.addToCart} />;
+				  onAddToCart={this.actions.addToCart} />
 	  });
 
 	  return (

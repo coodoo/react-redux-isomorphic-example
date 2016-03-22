@@ -1,23 +1,35 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import {Link} from 'react-router';
 
-var ProductItem = React.createClass( {
-  propTypes: {
-	product: React.PropTypes.shape( {
-	  image: React.PropTypes.string.isRequired,
-	  title: React.PropTypes.string.isRequired,
-	  price: React.PropTypes.number.isRequired,
-	  inventory: React.PropTypes.number.isRequired
-	} ).isRequired,
 
-	onAddToCartClicked: React.PropTypes.func.isRequired
-  },
+class ProductItem extends Component {
 
-  render: function() {
+	static propTypes = {
+		product: React.PropTypes.shape( {
+		  image: React.PropTypes.string.isRequired,
+		  title: React.PropTypes.string.isRequired,
+		  price: React.PropTypes.number.isRequired,
+		  inventory: React.PropTypes.number.isRequired
+		} ).isRequired,
+
+		onAddToCartClicked: React.PropTypes.func.isRequired
+	}
+
+  // 這裏沒有 props 屬性，但可透過 this.props 取值
+  foo = ( nativeEvent, unknown, reactEvent) => {
+	console.log( 'foo > this.props: ', this.props.product.toJS() )
+  }
+
+  render() {
 	var product = this.props.product;
+
+	console.log( 'render > props: ', this.props.product.toJS() )
 
 	return (
 		<div className="uk-panel uk-panel-box uk-margin-bottom">
+
+			<div onClick={this.foo}>foooo</div>
+
 			<img className="uk-thumbnail uk-thumbnail-mini uk-align-left" src={product.image} />
 			<h4 className="uk-h4">{product.title} - &euro;{product.price}</h4>
 			<p>inventory: {product.inventory}</p>
@@ -35,6 +47,8 @@ var ProductItem = React.createClass( {
 		</div>
 	);
   }
-} );
 
-module.exports = ProductItem;
+}
+
+
+export default ProductItem;
