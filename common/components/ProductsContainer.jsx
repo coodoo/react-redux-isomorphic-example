@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import ProductItem from './ProductItem.jsx';
 import ProductsList from './ProductsList.jsx';
-import ProductItemContainer from './ProductItemContainer.jsx';
+
 import * as ShopActions from '../actions/ShopActions';
 import { fetchNeeds } from '../utils/fetchComponentData';
 
@@ -35,7 +35,7 @@ class ProductsContainer extends Component {
 	  // convert Immutable.Map to Sequence, e.g. [ReactElement, ReactElement, ReactElement]
 	  var nodes = products.productsById.valueSeq().map( product => {
 
-		return <ProductItemContainer
+		return <ProductItem
 				  key={product.id}
 				  product={product}
 				  onAddToCart={this.actions.addToCart} />

@@ -25,6 +25,8 @@ export function readOne( {id} ) {
 
 export function addToCart(product) {
 
+	console.log( 'addToCart 有跑' )
+
 	// optimistic update: add transacation_id for updating the object after it's returned from server
 	product = product.set( 'tid', 't_' + Math.random()*100 );
 

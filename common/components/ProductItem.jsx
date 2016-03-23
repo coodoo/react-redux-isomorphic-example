@@ -1,54 +1,48 @@
-import React, { Component, PropTypes } from 'react';
-import {Link} from 'react-router';
+import React from 'react';
+import { Link } from 'react-router';
+import { pure, mapPropsOnChange, compose } from 'recompose';
 
+// original stateless function
+const ProductItem = (props) => {
 
-class ProductItem extends Component {
+	let { product } = props;
 
-	static propTypes = {
-		product: React.PropTypes.shape( {
-		  image: React.PropTypes.string.isRequired,
-		  title: React.PropTypes.string.isRequired,
-		  price: React.PropTypes.number.isRequired,
-		  inventory: React.PropTypes.number.isRequired
-		} ).isRequired,
-
-		onAddToCartClicked: React.PropTypes.func.isRequired
-	}
-
-  // 這裏沒有 props 屬性，但可透過 this.props 取值
-  foo = ( nativeEvent, unknown, reactEvent) => {
-	console.log( 'foo > this.props: ', this.props.product.toJS() )
-  }
-
-  render() {
-	var product = this.props.product;
-
-	console.log( 'render > props: ', this.props.product.toJS() )
-
+	console.log( '\nproductItem render' )
 	return (
-		<div className="uk-panel uk-panel-box uk-margin-bottom">
-
-			<div onClick={this.foo}>foooo</div>
-
-			<img className="uk-thumbnail uk-thumbnail-mini uk-align-left" src={product.image} />
-			<h4 className="uk-h4">{product.title} - &euro;{product.price}</h4>
+		<div className='uk-panel uk-panel-box uk-margin-bottom'>
+			<img className='uk-thumbnail uk-thumbnail-mini uk-align-left' src={product.image} />
+			<h4 className='uk-h4'>{product.title} - €{product.price}</h4>
 			<p>inventory: {product.inventory}</p>
-			<button className="uk-button uk-button-small uk-button-primary"
-					onClick={this.props.onAddToCartClicked}
+			<button className='uk-button uk-button-small uk-button-primary'
+					onClick={props.onAddToCart}
 					disabled={product.inventory > 0 ? '' : 'disabled'}>
 
 					{product.inventory > 0 ? 'Add to cart' : 'Sold Out'}
 			</button>
-			<br/>
-			<br/>
-			<br/>
 			<Link to={`/${product.id}`}>details</Link>
-			<br/>
 		</div>
 	);
-  }
 
-}
+};
 
+// 用 compose() 來組合多個插件
+export default compose(
 
-export default ProductItem;
+	// 負責操作 bind 將 product 綁入 onAddToCart handler 內
+	// 這樣 stateless component 可直接用
+	mapPropsOnChange(
+
+		['prodcut'],
+
+		ownerProps => {
+			// console.log( '\n→ mapProps 跑: ', ownerProps.product.toJS() )
+			return {...ownerProps, onAddToCart: ownerProps.onAddToCart.bind( null, ownerProps.product ) };
+		}),
+
+	// 啟用 pureRenderMixin
+	pure,
+
+)(ProductItem)
+
+// export default pure(ProductItem)
+// export default ProductItem

@@ -85,7 +85,10 @@ app.use( ( req, res, next ) => {
 
 		.then( page => res.status(200).send(page) )
 
-		.catch( err => res.end(err.message) );
+		.catch( err => {
+			console.log( '\nError creating pages:\n', err.stack )
+			res.end(err.message)
+		});
 	})
 })
 
