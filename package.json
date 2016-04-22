@@ -51,6 +51,7 @@
     "babel-core": "^6.6.4",
     "babel-loader": "^6.2.4",
     "babel-plugin-react-transform": "^2.0.0",
+    "babel-register": "^6.7.2",
     "css-loader": "^0.23.1",
     "express": "^4.13.3",
     "node-libs-browser": "^1.0.0",
