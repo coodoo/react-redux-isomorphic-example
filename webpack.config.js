@@ -8,8 +8,8 @@ module.exports = {
   devtool: '#inline-source-map',
 
   entry: [
-	'webpack-hot-middleware/client',
-	'./client/index.js' // client app 的進入點
+	'webpack-hot-middleware/client', // for hot reload
+	'./client/index.js' // entry point for the client app
   ],
 
   //
@@ -30,11 +30,11 @@ module.exports = {
   resolve: {
 	alias: {
 	},
-	// require() 時不用加 .suffix
+	// require() file without adding .jsx and .js .suffix
 	extensions: ['', '.js', '.jsx']
   },
 
-  // jx: 記得設定 babel 的 stage=0 才支援最新 es7 語法
+  // be sure to add 'stage-0' in .babelrc to support es7 syntax
   module: {
 	loaders: [
 		{

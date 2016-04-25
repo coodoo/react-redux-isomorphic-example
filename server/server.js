@@ -1,6 +1,6 @@
-var fs = require('fs');
-var express = require('express');
-var path = require('path');
+import fs from 'fs';
+import express from 'express';
+import path from 'path';
 
 import React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -20,16 +20,16 @@ const finalCreateStore = applyMiddleware(promiseMiddleware)( createStore );
 
 // console.log( 'env: ', process.env.NODE_ENV )
 
-var app = express();
-// app.use('/build', express.static(path.join(__dirname, '../build')))
+const app = express();
+
 app.use('/assets', express.static(path.join(__dirname, '../client/assets')))
 
 // initialize webpack HMR
-var webpack = require('webpack')
-var webpackDevMiddleware = require('webpack-dev-middleware')
-var webpackHotMiddleware = require('webpack-hot-middleware')
-var config = require('../webpack.config')
-var compiler = webpack(config)
+const webpack = require('webpack')
+const webpackDevMiddleware = require('webpack-dev-middleware')
+const webpackHotMiddleware = require('webpack-hot-middleware')
+const config = require('../webpack.config')
+const compiler = webpack(config)
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
 app.use(webpackHotMiddleware(compiler))
 
