@@ -106,7 +106,7 @@ With [redux-devtools](https://github.com/gaearon/redux-devtools/) in place, you 
 
 Pro hint, it can be toggled off by setting `window.$REDUX_DEVTOOL = false;` in `boot.js`.
 
-![redux-devtools inaction](https://raw.githubusercontent.com/coodoo/react-redux-isomorphic-example/master/assets/images/cap.png)
+![redux-devtools inaction](https://raw.githubusercontent.com/coodoo/react-redux-isomorphic-example/master/client/assets/images/cap.png)
 
 ## Special thanks
 
