@@ -24,6 +24,9 @@ class ProductsContainer extends Component {
 	}
 
 	componentDidMount() {
+		if (this.props.products.get('$fetched')) {
+			return
+		}
 		fetchNeeds( ProductsContainer.needs, this.props )
 	}
 
