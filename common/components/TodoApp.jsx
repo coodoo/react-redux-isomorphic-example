@@ -1,10 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import DevTools from './DevTools';
 
-if ( 'undefined' !== typeof window ) {
-	require( '../../client/assets/css/main.css' );
-}
-
 export default class TodoApp extends Component {
 
 	static contextTypes = {
