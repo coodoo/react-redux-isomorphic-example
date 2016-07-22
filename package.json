@@ -7,7 +7,7 @@
     "start": "node server/index.js",
     "start2": "npm run build& npm run server",
     "build": "webpack -d --progress --watch",
-    "server": "node server.js"
+    "server": "node server/index.js"
   },
   "repository": {
     "type": "git",
