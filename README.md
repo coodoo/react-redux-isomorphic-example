@@ -111,3 +111,7 @@ Pro hint, it can be toggled off by setting `window.$REDUX_DEVTOOL = false;` in `
 ## Special thanks
 
 Thanks [@gaearon](https://github.com/gaearon) for code review and pointing out misc. issues. [Lee Byron](https://github.com/leebyron) for bringing `immutable.js` to the world, it makes everything easier, you guys rock!
+
+## License
+
+MIT
