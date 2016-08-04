@@ -65,6 +65,20 @@ app.use( ( req, res, next ) => {
 
 		.then( () => {
 
+		  return new Promise((resolve, reject) => {
+		    fs.readFile('./client/assets/css/main.css', 'utf8', (err, data) => {
+		      if (err) {
+		        reject(err);
+		        return;
+		      }
+		      resolve(data);
+		    });
+  		  });
+
+		})
+
+		.then( (criticalCSS) => {
+
 			const initView = renderToString((
 				<Provider store={store}>
 				  <RouterContext {...renderProps} />
@@ -76,7 +90,9 @@ app.use( ( req, res, next ) => {
 			let state = JSON.stringify( store.getState() );
 			// console.log( '\nstate: ', state )
 
-			let page = renderFullPage( initView, state )
+
+
+			let page = renderFullPage( initView, state, criticalCSS )
 			// console.log( '\npage:\n', page );
 
 			return page;
@@ -89,8 +105,7 @@ app.use( ( req, res, next ) => {
 	})
 })
 
-
-function renderFullPage(html, initialState) {
+function renderFullPage(html, initialState, criticalCSS) {
   return `
 	<!doctype html>
 	<html lang="utf-8">
@@ -98,6 +113,7 @@ function renderFullPage(html, initialState) {
 		<title>Universal Redux Example</title>
 		<link rel="shortcut icon" type="image/png" href="assets/images/react.png">
 		<link rel="stylesheet" href="/assets/css/uikit.almost-flat.min.css">
+		<style type="text/css">${criticalCSS}</style>
 	  </head>
 	  <body>
 	  <div class="container">${html}</div>
