@@ -4,7 +4,10 @@ export default function fetchComponentData(dispatch, components, params) {
   const needs = components.reduce( (prev, current) => {
 
   	return Object.keys(current).reduce( (acc, key) => {
-  		return current[key].hasOwnProperty('needs') ? current[key].needs.concat(acc) : acc
+  		if (!!current[key] && current[key].hasOwnProperty('needs')) {
+                return current[key].needs.concat(acc)
+            }
+        return acc
   	}, prev)
 
   }, []);

@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 
 // define ProductState shape inside redux state
 export const ProductState = Immutable.Record({
+	$fetched: false,
 	productsById: Immutable.Map(),
 	total: '0',
 })
