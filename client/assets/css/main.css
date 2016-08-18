@@ -4,9 +4,9 @@
     margin: 20px 25px;
 }
 .cart {
-    position: fixed;
-    left: 25px;
-    /*top: 195px;*/
-    top: 755px;
+    margin-left: 25px;
     width: 455px;
+}
+.container {
+    padding-bottom: 20px;
 }
