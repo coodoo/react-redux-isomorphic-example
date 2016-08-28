@@ -5,7 +5,7 @@ import * as ShopActions from '../actions/ShopActions';
 import { Link } from 'react-router';
 import { fetchNeeds } from '../utils/fetchComponentData';
 
-export default class ProductDetail extends Component {
+export class ProductDetail extends Component {
 
 	static needs = [
 		ShopActions.readOne
